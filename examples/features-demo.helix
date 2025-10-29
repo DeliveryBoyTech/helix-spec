@@ -1,0 +1,376 @@
+{
+  "$schema": "https://helixui.org/v0.1/schema.json",
+  "version": "0.2",
+  "id": "features-demo",
+
+  "meta": {
+    "name": "Component Features Demo",
+    "description": "Demonstrates all Tier 1 component features (v0.2)",
+    "author": "HelixUI",
+    "created": "2025-10-28T00:00:00Z"
+  },
+
+  "root": {
+    "type": "container",
+    "className": "max-w-4xl mx-auto p-8 bg-gray-50 min-h-screen",
+    "layout": {
+      "strategy": "flex",
+      "direction": "column",
+      "gap": 32
+    },
+    "children": [
+      {
+        "type": "text",
+        "variant": "h1",
+        "content": "Component Features Demo (v0.2)",
+        "className": "text-4xl font-bold text-gray-900"
+      },
+
+      {
+        "type": "container",
+        "className": "bg-white rounded-lg shadow p-6",
+        "children": [
+          {
+            "type": "text",
+            "variant": "h2",
+            "content": "Input Features",
+            "className": "text-2xl font-bold mb-6"
+          },
+
+          {
+            "type": "stack",
+            "direction": "vertical",
+            "spacing": 24,
+            "children": [
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "label",
+                    "content": "Clearable Input",
+                    "className": "block mb-2 font-medium"
+                  },
+                  {
+                    "type": "input",
+                    "variant": "search",
+                    "binding": "$.searchQuery",
+                    "placeholder": "Type to search...",
+                    "clearable": true,
+                    "className": "w-full px-4 py-2 border rounded-lg"
+                  }
+                ]
+              },
+
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "label",
+                    "content": "Input with Prefix/Suffix",
+                    "className": "block mb-2 font-medium"
+                  },
+                  {
+                    "type": "input",
+                    "variant": "number",
+                    "binding": "$.amount",
+                    "placeholder": "0.00",
+                    "prefix": "$",
+                    "suffix": "USD",
+                    "className": "w-full px-4 py-2 border rounded-lg"
+                  }
+                ]
+              },
+
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "label",
+                    "content": "Input with Icon Prefix",
+                    "className": "block mb-2 font-medium"
+                  },
+                  {
+                    "type": "input",
+                    "variant": "email",
+                    "binding": "$.email",
+                    "placeholder": "you@example.com",
+                    "prefix": {
+                      "icon": "mail",
+                      "className": "text-blue-500"
+                    },
+                    "className": "w-full px-4 py-2 border rounded-lg"
+                  }
+                ]
+              },
+
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "label",
+                    "content": "Debounced Search (300ms)",
+                    "className": "block mb-2 font-medium"
+                  },
+                  {
+                    "type": "input",
+                    "variant": "search",
+                    "binding": "$.debouncedQuery",
+                    "placeholder": "Search with debounce...",
+                    "debounce": 300,
+                    "onChange": "actions.search",
+                    "className": "w-full px-4 py-2 border rounded-lg"
+                  }
+                ]
+              },
+
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "label",
+                    "content": "Password with Toggle Visibility",
+                    "className": "block mb-2 font-medium"
+                  },
+                  {
+                    "type": "input",
+                    "variant": "password",
+                    "binding": "$.password",
+                    "placeholder": "••••••••",
+                    "toggleVisibility": true,
+                    "className": "w-full px-4 py-2 border rounded-lg"
+                  }
+                ]
+              },
+
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "label",
+                    "content": "Textarea with Character Counter",
+                    "className": "block mb-2 font-medium"
+                  },
+                  {
+                    "type": "input",
+                    "variant": "textarea",
+                    "binding": "$.bio",
+                    "placeholder": "Tell us about yourself...",
+                    "maxLength": 280,
+                    "counter": true,
+                    "className": "w-full px-4 py-2 border rounded-lg"
+                  }
+                ]
+              },
+
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "label",
+                    "content": "Phone Number with Mask",
+                    "className": "block mb-2 font-medium"
+                  },
+                  {
+                    "type": "input",
+                    "variant": "tel",
+                    "binding": "$.phone",
+                    "placeholder": "(123) 456-7890",
+                    "mask": "(###) ###-####",
+                    "className": "w-full px-4 py-2 border rounded-lg"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "type": "container",
+        "className": "bg-white rounded-lg shadow p-6",
+        "children": [
+          {
+            "type": "text",
+            "variant": "h2",
+            "content": "Button Features",
+            "className": "text-2xl font-bold mb-6"
+          },
+
+          {
+            "type": "flex",
+            "gap": 12,
+            "wrap": true,
+            "children": [
+              {
+                "type": "button",
+                "label": "Save",
+                "variant": "primary",
+                "icon": "save",
+                "className": "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              },
+              {
+                "type": "button",
+                "label": "Download",
+                "variant": "secondary",
+                "icon": {
+                  "name": "download",
+                  "position": "right"
+                },
+                "className": "px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+              },
+              {
+                "type": "button",
+                "label": "Submit Form",
+                "variant": "primary",
+                "loading": "$.isSubmitting",
+                "loadingText": "Submitting...",
+                "className": "px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+              },
+              {
+                "type": "button",
+                "label": "Delete",
+                "variant": "danger",
+                "icon": "trash",
+                "tooltip": {
+                  "content": "This will permanently delete the item",
+                  "position": "top"
+                },
+                "className": "px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "type": "container",
+        "className": "bg-white rounded-lg shadow p-6",
+        "children": [
+          {
+            "type": "text",
+            "variant": "h2",
+            "content": "Universal Features",
+            "className": "text-2xl font-bold mb-6"
+          },
+
+          {
+            "type": "stack",
+            "direction": "vertical",
+            "spacing": 24,
+            "children": [
+              {
+                "type": "text",
+                "variant": "body",
+                "content": "Hover over this button for a tooltip:",
+                "className": "text-gray-700"
+              },
+              {
+                "type": "button",
+                "label": "Hover Me",
+                "tooltip": {
+                  "content": "This is a helpful tooltip!",
+                  "position": "right",
+                  "delay": 200
+                },
+                "className": "px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+              },
+
+              {
+                "type": "text",
+                "variant": "body",
+                "content": "Loading state simulation:",
+                "className": "text-gray-700 mt-4"
+              },
+              {
+                "type": "button",
+                "label": "Click to Load",
+                "action": "actions.simulateLoading",
+                "loading": "$.isLoading",
+                "loadingText": "Loading...",
+                "className": "px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "type": "container",
+        "className": "bg-white rounded-lg shadow p-6",
+        "children": [
+          {
+            "type": "text",
+            "variant": "h2",
+            "content": "Combined Features",
+            "className": "text-2xl font-bold mb-6"
+          },
+
+          {
+            "type": "text",
+            "variant": "label",
+            "content": "Search with Multiple Features",
+            "className": "block mb-2 font-medium"
+          },
+          {
+            "type": "input",
+            "variant": "search",
+            "binding": "$.advancedSearch",
+            "placeholder": "Search with all the features...",
+            "clearable": true,
+            "debounce": 500,
+            "prefix": {
+              "icon": "search"
+            },
+            "tooltip": {
+              "content": "This combines clearable, debounce, prefix, and tooltip features!",
+              "position": "top"
+            },
+            "className": "w-full px-4 py-2 border rounded-lg"
+          }
+        ]
+      }
+    ]
+  },
+
+  "data": {
+    "initial": {
+      "searchQuery": "",
+      "amount": "",
+      "email": "",
+      "debouncedQuery": "",
+      "password": "",
+      "bio": "",
+      "phone": "",
+      "advancedSearch": "",
+      "isSubmitting": false,
+      "isLoading": false
+    }
+  },
+
+  "actions": {
+    "search": {
+      "type": "data",
+      "operation": "log",
+      "binding": "$.debouncedQuery",
+      "value": "Search triggered"
+    },
+    "simulateLoading": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "data",
+          "operation": "set",
+          "binding": "$.isLoading",
+          "value": true
+        }
+      ]
+    }
+  }
+}

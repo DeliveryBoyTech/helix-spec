@@ -1,0 +1,520 @@
+{
+  "$schema": "https://helixui.org/v0.1/schema.json",
+  "version": "0.1",
+  "id": "app-settings",
+
+  "meta": {
+    "name": "Application Settings",
+    "description": "User and application settings interface with multiple categories",
+    "author": "HelixUI",
+    "created": "2025-10-27T00:00:00Z"
+  },
+
+  "root": {
+    "type": "container",
+    "className": "max-w-6xl mx-auto",
+    "layout": {
+      "strategy": "flex",
+      "direction": "column",
+      "gap": 24,
+      "padding": 32
+    },
+    "children": [
+      {
+        "type": "text",
+        "variant": "h1",
+        "content": "Settings",
+        "className": "text-3xl font-bold mb-6"
+      },
+      {
+        "type": "grid",
+        "columns": "250px 1fr",
+        "gap": 32,
+        "children": [
+          {
+            "type": "stack",
+            "direction": "vertical",
+            "spacing": 8,
+            "className": "bg-white rounded-lg shadow p-4",
+            "children": [
+              {
+                "type": "button",
+                "label": "Profile",
+                "variant": "ghost",
+                "action": "actions.switchTab",
+                "className": "w-full text-left px-4 py-2 bg-blue-50 text-blue-700"
+              },
+              {
+                "type": "button",
+                "label": "Account",
+                "variant": "ghost",
+                "action": "actions.switchTab",
+                "className": "w-full text-left px-4 py-2"
+              },
+              {
+                "type": "button",
+                "label": "Notifications",
+                "variant": "ghost",
+                "action": "actions.switchTab",
+                "className": "w-full text-left px-4 py-2"
+              },
+              {
+                "type": "button",
+                "label": "Privacy",
+                "variant": "ghost",
+                "action": "actions.switchTab",
+                "className": "w-full text-left px-4 py-2"
+              },
+              {
+                "type": "button",
+                "label": "Appearance",
+                "variant": "ghost",
+                "action": "actions.switchTab",
+                "className": "w-full text-left px-4 py-2"
+              },
+              {
+                "type": "container",
+                "className": "border-t mt-4 pt-4"
+              },
+              {
+                "type": "button",
+                "label": "Billing",
+                "variant": "ghost",
+                "action": "actions.switchTab",
+                "className": "w-full text-left px-4 py-2"
+              },
+              {
+                "type": "button",
+                "label": "Advanced",
+                "variant": "ghost",
+                "action": "actions.switchTab",
+                "className": "w-full text-left px-4 py-2"
+              }
+            ]
+          },
+          {
+            "type": "container",
+            "className": "bg-white rounded-lg shadow p-6",
+            "children": [
+              {
+                "type": "stack",
+                "direction": "vertical",
+                "spacing": 32,
+                "children": [
+                  {
+                    "type": "container",
+                    "children": [
+                      {
+                        "type": "text",
+                        "variant": "h2",
+                        "content": "Profile Settings",
+                        "className": "text-2xl font-bold mb-4"
+                      },
+                      {
+                        "type": "stack",
+                        "direction": "vertical",
+                        "spacing": 24,
+                        "children": [
+                          {
+                            "type": "flex",
+                            "gap": 16,
+                            "align": "center",
+                            "children": [
+                              {
+                                "type": "image",
+                                "src": "https://via.placeholder.com/80",
+                                "alt": "Profile photo",
+                                "width": 80,
+                                "height": 80,
+                                "className": "rounded-full"
+                              },
+                              {
+                                "type": "stack",
+                                "direction": "vertical",
+                                "spacing": 8,
+                                "children": [
+                                  {
+                                    "type": "button",
+                                    "label": "Change Photo",
+                                    "variant": "secondary",
+                                    "action": "actions.changePhoto"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "variant": "caption",
+                                    "content": "JPG, PNG or GIF. Max size 2MB",
+                                    "className": "text-gray-500 text-sm"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "container",
+                            "children": [
+                              {
+                                "type": "text",
+                                "variant": "label",
+                                "content": "Display Name",
+                                "className": "block mb-2 font-medium"
+                              },
+                              {
+                                "type": "input",
+                                "variant": "text",
+                                "binding": "$.settings.profile.displayName",
+                                "placeholder": "John Doe",
+                                "className": "w-full px-3 py-2 border rounded"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "container",
+                            "children": [
+                              {
+                                "type": "text",
+                                "variant": "label",
+                                "content": "Bio",
+                                "className": "block mb-2 font-medium"
+                              },
+                              {
+                                "type": "input",
+                                "variant": "text",
+                                "binding": "$.settings.profile.bio",
+                                "placeholder": "Tell us about yourself...",
+                                "className": "w-full px-3 py-2 border rounded h-24"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "container",
+                            "children": [
+                              {
+                                "type": "text",
+                                "variant": "label",
+                                "content": "Website",
+                                "className": "block mb-2 font-medium"
+                              },
+                              {
+                                "type": "input",
+                                "variant": "url",
+                                "binding": "$.settings.profile.website",
+                                "placeholder": "https://example.com",
+                                "className": "w-full px-3 py-2 border rounded"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "container",
+                    "className": "border-t pt-8",
+                    "children": [
+                      {
+                        "type": "text",
+                        "variant": "h3",
+                        "content": "Notifications",
+                        "className": "text-xl font-bold mb-4"
+                      },
+                      {
+                        "type": "stack",
+                        "direction": "vertical",
+                        "spacing": 16,
+                        "children": [
+                          {
+                            "type": "flex",
+                            "justify": "space-between",
+                            "align": "center",
+                            "className": "py-3 border-b",
+                            "children": [
+                              {
+                                "type": "container",
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "variant": "body",
+                                    "content": "Email Notifications",
+                                    "className": "font-medium"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "variant": "caption",
+                                    "content": "Receive email about your account activity",
+                                    "className": "text-gray-500 text-sm"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "checkbox",
+                                "binding": "$.settings.notifications.email",
+                                "label": ""
+                              }
+                            ]
+                          },
+                          {
+                            "type": "flex",
+                            "justify": "space-between",
+                            "align": "center",
+                            "className": "py-3 border-b",
+                            "children": [
+                              {
+                                "type": "container",
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "variant": "body",
+                                    "content": "Push Notifications",
+                                    "className": "font-medium"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "variant": "caption",
+                                    "content": "Receive push notifications on your devices",
+                                    "className": "text-gray-500 text-sm"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "checkbox",
+                                "binding": "$.settings.notifications.push",
+                                "label": ""
+                              }
+                            ]
+                          },
+                          {
+                            "type": "flex",
+                            "justify": "space-between",
+                            "align": "center",
+                            "className": "py-3 border-b",
+                            "children": [
+                              {
+                                "type": "container",
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "variant": "body",
+                                    "content": "Marketing Emails",
+                                    "className": "font-medium"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "variant": "caption",
+                                    "content": "Receive emails about new features and updates",
+                                    "className": "text-gray-500 text-sm"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "checkbox",
+                                "binding": "$.settings.notifications.marketing",
+                                "label": ""
+                              }
+                            ]
+                          },
+                          {
+                            "type": "flex",
+                            "justify": "space-between",
+                            "align": "center",
+                            "className": "py-3",
+                            "children": [
+                              {
+                                "type": "container",
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "variant": "body",
+                                    "content": "Weekly Digest",
+                                    "className": "font-medium"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "variant": "caption",
+                                    "content": "Get a weekly summary of your activity",
+                                    "className": "text-gray-500 text-sm"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "checkbox",
+                                "binding": "$.settings.notifications.weeklyDigest",
+                                "label": ""
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "container",
+                    "className": "border-t pt-8",
+                    "children": [
+                      {
+                        "type": "text",
+                        "variant": "h3",
+                        "content": "Appearance",
+                        "className": "text-xl font-bold mb-4"
+                      },
+                      {
+                        "type": "container",
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "label",
+                            "content": "Theme",
+                            "className": "block mb-3 font-medium"
+                          },
+                          {
+                            "type": "radio",
+                            "binding": "$.settings.appearance.theme",
+                            "options": [
+                              {"value": "light", "label": "Light"},
+                              {"value": "dark", "label": "Dark"},
+                              {"value": "auto", "label": "Auto (match system)"}
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "flex",
+                    "justify": "end",
+                    "gap": 12,
+                    "className": "mt-6 pt-6 border-t",
+                    "children": [
+                      {
+                        "type": "button",
+                        "label": "Reset to Defaults",
+                        "variant": "secondary",
+                        "action": "actions.resetSettings",
+                        "className": "px-4 py-2"
+                      },
+                      {
+                        "type": "button",
+                        "label": "Save Changes",
+                        "variant": "primary",
+                        "action": "actions.saveSettings",
+                        "className": "px-4 py-2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "settings": {
+          "type": "object",
+          "properties": {
+            "profile": {
+              "type": "object",
+              "properties": {
+                "displayName": {"type": "string"},
+                "bio": {"type": "string"},
+                "website": {"type": "string"}
+              }
+            },
+            "notifications": {
+              "type": "object",
+              "properties": {
+                "email": {"type": "boolean"},
+                "push": {"type": "boolean"},
+                "marketing": {"type": "boolean"},
+                "weeklyDigest": {"type": "boolean"}
+              }
+            },
+            "appearance": {
+              "type": "object",
+              "properties": {
+                "theme": {"type": "string", "enum": ["light", "dark", "auto"]}
+              }
+            }
+          }
+        },
+        "activeTab": {"type": "string"}
+      }
+    },
+    "initial": {
+      "settings": {
+        "profile": {
+          "displayName": "",
+          "bio": "",
+          "website": ""
+        },
+        "notifications": {
+          "email": true,
+          "push": true,
+          "marketing": false,
+          "weeklyDigest": true
+        },
+        "appearance": {
+          "theme": "auto"
+        }
+      },
+      "activeTab": "profile"
+    }
+  },
+
+  "actions": {
+    "loadSettings": {
+      "type": "http",
+      "method": "GET",
+      "url": "/api/settings",
+      "onSuccess": {
+        "binding": "$.settings"
+      }
+    },
+    "saveSettings": {
+      "type": "http",
+      "method": "PUT",
+      "url": "/api/settings",
+      "body": "$.settings",
+      "onSuccess": {
+        "type": "navigate",
+        "url": "/dashboard"
+      }
+    },
+    "resetSettings": {
+      "type": "data",
+      "operation": "set",
+      "binding": "$.settings",
+      "value": {
+        "profile": {"displayName": "", "bio": "", "website": ""},
+        "notifications": {"email": true, "push": true, "marketing": false, "weeklyDigest": true},
+        "appearance": {"theme": "auto"}
+      }
+    },
+    "switchTab": {
+      "type": "data",
+      "operation": "set",
+      "binding": "$.activeTab",
+      "value": "$.clickedTab"
+    },
+    "changePhoto": {
+      "type": "modal",
+      "operation": "open",
+      "modalId": "upload-photo"
+    }
+  },
+
+  "platformHints": {
+    "web": {
+      "responsive": true,
+      "breakpoints": {
+        "mobile": 640,
+        "tablet": 768,
+        "desktop": 1024
+      }
+    }
+  }
+}

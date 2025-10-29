@@ -1,0 +1,916 @@
+{
+  "$schema": "https://helixui.org/v0.1/schema.json",
+  "version": "0.1",
+  "id": "task-management",
+
+  "meta": {
+    "name": "Task Management with Modals",
+    "description": "Complex task management interface with multiple modals for creating, editing, and managing tasks",
+    "author": "HelixUI",
+    "created": "2025-10-27T00:00:00Z"
+  },
+
+  "root": {
+    "type": "container",
+    "className": "max-w-7xl mx-auto",
+    "layout": {
+      "strategy": "flex",
+      "direction": "column",
+      "gap": 24,
+      "padding": 32
+    },
+    "children": [
+      {
+        "type": "flex",
+        "justify": "space-between",
+        "align": "center",
+        "className": "mb-6",
+        "children": [
+          {
+            "type": "text",
+            "variant": "h1",
+            "content": "My Tasks",
+            "className": "text-3xl font-bold"
+          },
+          {
+            "type": "flex",
+            "gap": 12,
+            "children": [
+              {
+                "type": "button",
+                "label": "Filters",
+                "variant": "secondary",
+                "action": "actions.openFilters",
+                "className": "px-4 py-2"
+              },
+              {
+                "type": "button",
+                "label": "+ New Task",
+                "variant": "primary",
+                "action": "actions.openCreateTask",
+                "className": "px-4 py-2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "grid",
+        "columns": "repeat(3, 1fr)",
+        "gap": 16,
+        "children": [
+          {
+            "type": "container",
+            "className": "bg-gray-100 rounded-lg p-4",
+            "children": [
+              {
+                "type": "flex",
+                "justify": "space-between",
+                "align": "center",
+                "className": "mb-4",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "h3",
+                    "content": "To Do",
+                    "className": "font-bold text-gray-700"
+                  },
+                  {
+                    "type": "text",
+                    "variant": "caption",
+                    "content": "{{todoCount}}",
+                    "binding": "$.todoCount",
+                    "className": "bg-gray-200 px-2 py-1 rounded text-sm"
+                  }
+                ]
+              },
+              {
+                "type": "stack",
+                "direction": "vertical",
+                "spacing": 12,
+                "children": [
+                  {
+                    "type": "container",
+                    "binding": "$.tasks[?(@.status === 'todo')]",
+                    "className": "bg-white rounded p-4 shadow cursor-pointer hover:shadow-md transition",
+                    "action": "actions.openTaskDetails",
+                    "children": [
+                      {
+                        "type": "stack",
+                        "direction": "vertical",
+                        "spacing": 8,
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "body",
+                            "binding": "$.title",
+                            "className": "font-medium"
+                          },
+                          {
+                            "type": "text",
+                            "variant": "caption",
+                            "binding": "$.description",
+                            "className": "text-gray-600 text-sm line-clamp-2"
+                          },
+                          {
+                            "type": "flex",
+                            "gap": 8,
+                            "className": "mt-2",
+                            "children": [
+                              {
+                                "type": "text",
+                                "variant": "caption",
+                                "content": "{{priority}}",
+                                "binding": "$.priority",
+                                "className": "px-2 py-1 bg-red-100 text-red-700 rounded text-xs",
+                                "condition": "{{priority === 'high'}}"
+                              },
+                              {
+                                "type": "text",
+                                "variant": "caption",
+                                "content": "Due: {{dueDate}}",
+                                "binding": "$.dueDate",
+                                "className": "text-xs text-gray-500"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "container",
+            "className": "bg-blue-50 rounded-lg p-4",
+            "children": [
+              {
+                "type": "flex",
+                "justify": "space-between",
+                "align": "center",
+                "className": "mb-4",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "h3",
+                    "content": "In Progress",
+                    "className": "font-bold text-blue-700"
+                  },
+                  {
+                    "type": "text",
+                    "variant": "caption",
+                    "content": "{{inProgressCount}}",
+                    "binding": "$.inProgressCount",
+                    "className": "bg-blue-100 px-2 py-1 rounded text-sm"
+                  }
+                ]
+              },
+              {
+                "type": "stack",
+                "direction": "vertical",
+                "spacing": 12,
+                "children": [
+                  {
+                    "type": "container",
+                    "binding": "$.tasks[?(@.status === 'in-progress')]",
+                    "className": "bg-white rounded p-4 shadow cursor-pointer hover:shadow-md transition",
+                    "action": "actions.openTaskDetails",
+                    "children": [
+                      {
+                        "type": "stack",
+                        "direction": "vertical",
+                        "spacing": 8,
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "body",
+                            "binding": "$.title",
+                            "className": "font-medium"
+                          },
+                          {
+                            "type": "text",
+                            "variant": "caption",
+                            "binding": "$.description",
+                            "className": "text-gray-600 text-sm line-clamp-2"
+                          },
+                          {
+                            "type": "text",
+                            "variant": "caption",
+                            "content": "Assigned to: {{assignee}}",
+                            "binding": "$.assignee",
+                            "className": "text-xs text-blue-600 mt-2"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "container",
+            "className": "bg-green-50 rounded-lg p-4",
+            "children": [
+              {
+                "type": "flex",
+                "justify": "space-between",
+                "align": "center",
+                "className": "mb-4",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "h3",
+                    "content": "Done",
+                    "className": "font-bold text-green-700"
+                  },
+                  {
+                    "type": "text",
+                    "variant": "caption",
+                    "content": "{{doneCount}}",
+                    "binding": "$.doneCount",
+                    "className": "bg-green-100 px-2 py-1 rounded text-sm"
+                  }
+                ]
+              },
+              {
+                "type": "stack",
+                "direction": "vertical",
+                "spacing": 12,
+                "children": [
+                  {
+                    "type": "container",
+                    "binding": "$.tasks[?(@.status === 'done')]",
+                    "className": "bg-white rounded p-4 shadow cursor-pointer hover:shadow-md transition opacity-75",
+                    "action": "actions.openTaskDetails",
+                    "children": [
+                      {
+                        "type": "stack",
+                        "direction": "vertical",
+                        "spacing": 8,
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "body",
+                            "binding": "$.title",
+                            "className": "font-medium line-through text-gray-500"
+                          },
+                          {
+                            "type": "text",
+                            "variant": "caption",
+                            "content": "Completed: {{completedDate}}",
+                            "binding": "$.completedDate",
+                            "className": "text-xs text-green-600"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "modal",
+        "id": "create-task",
+        "title": "Create New Task",
+        "size": "medium",
+        "children": [
+          {
+            "type": "form",
+            "binding": "$.newTask",
+            "onSubmit": "actions.createTask",
+            "children": [
+              {
+                "type": "stack",
+                "direction": "vertical",
+                "spacing": 16,
+                "children": [
+                  {
+                    "type": "container",
+                    "children": [
+                      {
+                        "type": "text",
+                        "variant": "label",
+                        "content": "Task Title",
+                        "className": "block mb-2 font-medium"
+                      },
+                      {
+                        "type": "input",
+                        "variant": "text",
+                        "binding": "$.newTask.title",
+                        "placeholder": "Enter task title",
+                        "required": true,
+                        "className": "w-full px-3 py-2 border rounded"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "container",
+                    "children": [
+                      {
+                        "type": "text",
+                        "variant": "label",
+                        "content": "Description",
+                        "className": "block mb-2 font-medium"
+                      },
+                      {
+                        "type": "input",
+                        "variant": "text",
+                        "binding": "$.newTask.description",
+                        "placeholder": "Task details...",
+                        "className": "w-full px-3 py-2 border rounded h-24"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "grid",
+                    "columns": "1fr 1fr",
+                    "gap": 16,
+                    "children": [
+                      {
+                        "type": "container",
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "label",
+                            "content": "Priority",
+                            "className": "block mb-2 font-medium"
+                          },
+                          {
+                            "type": "select",
+                            "binding": "$.newTask.priority",
+                            "options": [
+                              {"value": "low", "label": "Low"},
+                              {"value": "medium", "label": "Medium"},
+                              {"value": "high", "label": "High"}
+                            ],
+                            "className": "w-full px-3 py-2 border rounded"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "container",
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "label",
+                            "content": "Due Date",
+                            "className": "block mb-2 font-medium"
+                          },
+                          {
+                            "type": "input",
+                            "variant": "text",
+                            "binding": "$.newTask.dueDate",
+                            "placeholder": "YYYY-MM-DD",
+                            "className": "w-full px-3 py-2 border rounded"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "container",
+                    "children": [
+                      {
+                        "type": "text",
+                        "variant": "label",
+                        "content": "Assign To",
+                        "className": "block mb-2 font-medium"
+                      },
+                      {
+                        "type": "flex",
+                        "gap": 8,
+                        "children": [
+                          {
+                            "type": "select",
+                            "binding": "$.newTask.assignee",
+                            "placeholder": "Select team member",
+                            "options": [
+                              {"value": "john", "label": "John Doe"},
+                              {"value": "jane", "label": "Jane Smith"},
+                              {"value": "bob", "label": "Bob Johnson"}
+                            ],
+                            "className": "flex-1 px-3 py-2 border rounded"
+                          },
+                          {
+                            "type": "button",
+                            "label": "Invite",
+                            "variant": "secondary",
+                            "action": "actions.openInviteUser",
+                            "className": "px-3 py-2"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "label": "Cancel",
+            "action": "actions.closeCreateTask",
+            "variant": "secondary"
+          },
+          {
+            "label": "Create Task",
+            "action": "actions.createTask",
+            "variant": "primary"
+          }
+        ]
+      },
+      {
+        "type": "modal",
+        "id": "task-details",
+        "title": "Task Details",
+        "size": "large",
+        "children": [
+          {
+            "type": "stack",
+            "direction": "vertical",
+            "spacing": 24,
+            "children": [
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "h2",
+                    "binding": "$.selectedTask.title",
+                    "className": "text-2xl font-bold mb-2"
+                  },
+                  {
+                    "type": "text",
+                    "variant": "body",
+                    "binding": "$.selectedTask.description",
+                    "className": "text-gray-600"
+                  }
+                ]
+              },
+              {
+                "type": "grid",
+                "columns": "1fr 1fr 1fr",
+                "gap": 16,
+                "className": "bg-gray-50 p-4 rounded",
+                "children": [
+                  {
+                    "type": "container",
+                    "children": [
+                      {
+                        "type": "text",
+                        "variant": "caption",
+                        "content": "Status",
+                        "className": "text-gray-500 text-sm mb-1"
+                      },
+                      {
+                        "type": "select",
+                        "binding": "$.selectedTask.status",
+                        "options": [
+                          {"value": "todo", "label": "To Do"},
+                          {"value": "in-progress", "label": "In Progress"},
+                          {"value": "done", "label": "Done"}
+                        ],
+                        "onChange": "actions.updateTaskStatus",
+                        "className": "w-full px-2 py-1 border rounded"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "container",
+                    "children": [
+                      {
+                        "type": "text",
+                        "variant": "caption",
+                        "content": "Priority",
+                        "className": "text-gray-500 text-sm mb-1"
+                      },
+                      {
+                        "type": "text",
+                        "variant": "body",
+                        "binding": "$.selectedTask.priority",
+                        "className": "font-medium capitalize"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "container",
+                    "children": [
+                      {
+                        "type": "text",
+                        "variant": "caption",
+                        "content": "Due Date",
+                        "className": "text-gray-500 text-sm mb-1"
+                      },
+                      {
+                        "type": "text",
+                        "variant": "body",
+                        "binding": "$.selectedTask.dueDate",
+                        "className": "font-medium"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "container",
+                "className": "border-t pt-4",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "h3",
+                    "content": "Comments",
+                    "className": "text-lg font-bold mb-4"
+                  },
+                  {
+                    "type": "stack",
+                    "direction": "vertical",
+                    "spacing": 12,
+                    "children": [
+                      {
+                        "type": "container",
+                        "binding": "$.selectedTask.comments[*]",
+                        "className": "p-3 bg-gray-50 rounded",
+                        "children": [
+                          {
+                            "type": "flex",
+                            "gap": 8,
+                            "children": [
+                              {
+                                "type": "text",
+                                "variant": "body",
+                                "binding": "$.author",
+                                "className": "font-medium"
+                              },
+                              {
+                                "type": "text",
+                                "variant": "caption",
+                                "binding": "$.timestamp",
+                                "className": "text-gray-500 text-sm"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "text",
+                            "variant": "body",
+                            "binding": "$.text",
+                            "className": "mt-1"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "flex",
+                    "gap": 8,
+                    "className": "mt-4",
+                    "children": [
+                      {
+                        "type": "input",
+                        "variant": "text",
+                        "binding": "$.newComment",
+                        "placeholder": "Add a comment...",
+                        "className": "flex-1 px-3 py-2 border rounded"
+                      },
+                      {
+                        "type": "button",
+                        "label": "Post",
+                        "variant": "primary",
+                        "action": "actions.addComment",
+                        "className": "px-4 py-2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "label": "Delete Task",
+            "action": "actions.confirmDeleteTask",
+            "variant": "danger"
+          },
+          {
+            "label": "Edit",
+            "action": "actions.openEditTask",
+            "variant": "secondary"
+          },
+          {
+            "label": "Close",
+            "action": "actions.closeTaskDetails",
+            "variant": "secondary"
+          }
+        ]
+      },
+      {
+        "type": "modal",
+        "id": "confirm-delete",
+        "title": "Confirm Delete",
+        "size": "small",
+        "children": [
+          {
+            "type": "text",
+            "variant": "body",
+            "content": "Are you sure you want to delete this task? This action cannot be undone.",
+            "className": "text-gray-700"
+          }
+        ],
+        "actions": [
+          {
+            "label": "Cancel",
+            "action": "actions.closeConfirmDelete",
+            "variant": "secondary"
+          },
+          {
+            "label": "Delete",
+            "action": "actions.deleteTask",
+            "variant": "danger"
+          }
+        ]
+      },
+      {
+        "type": "modal",
+        "id": "filters",
+        "title": "Filter Tasks",
+        "size": "medium",
+        "children": [
+          {
+            "type": "stack",
+            "direction": "vertical",
+            "spacing": 16,
+            "children": [
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "label",
+                    "content": "Assignee",
+                    "className": "block mb-2 font-medium"
+                  },
+                  {
+                    "type": "select",
+                    "binding": "$.filters.assignee",
+                    "placeholder": "All assignees",
+                    "options": [
+                      {"value": "all", "label": "All"},
+                      {"value": "john", "label": "John Doe"},
+                      {"value": "jane", "label": "Jane Smith"}
+                    ],
+                    "className": "w-full px-3 py-2 border rounded"
+                  }
+                ]
+              },
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "label",
+                    "content": "Priority",
+                    "className": "block mb-2 font-medium"
+                  },
+                  {
+                    "type": "stack",
+                    "direction": "vertical",
+                    "spacing": 8,
+                    "children": [
+                      {
+                        "type": "checkbox",
+                        "binding": "$.filters.priority.low",
+                        "label": "Low"
+                      },
+                      {
+                        "type": "checkbox",
+                        "binding": "$.filters.priority.medium",
+                        "label": "Medium"
+                      },
+                      {
+                        "type": "checkbox",
+                        "binding": "$.filters.priority.high",
+                        "label": "High"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "label": "Clear",
+            "action": "actions.clearFilters",
+            "variant": "secondary"
+          },
+          {
+            "label": "Apply Filters",
+            "action": "actions.applyFilters",
+            "variant": "primary"
+          }
+        ]
+      }
+    ]
+  },
+
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "tasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "title": {"type": "string"},
+              "description": {"type": "string"},
+              "status": {"type": "string"},
+              "priority": {"type": "string"},
+              "dueDate": {"type": "string"},
+              "assignee": {"type": "string"},
+              "comments": {"type": "array"}
+            }
+          }
+        },
+        "newTask": {"type": "object"},
+        "selectedTask": {"type": "object"},
+        "newComment": {"type": "string"},
+        "filters": {"type": "object"},
+        "todoCount": {"type": "number"},
+        "inProgressCount": {"type": "number"},
+        "doneCount": {"type": "number"}
+      }
+    },
+    "initial": {
+      "tasks": [],
+      "newTask": {},
+      "selectedTask": null,
+      "newComment": "",
+      "filters": {},
+      "todoCount": 0,
+      "inProgressCount": 0,
+      "doneCount": 0
+    }
+  },
+
+  "actions": {
+    "fetchTasks": {
+      "type": "http",
+      "method": "GET",
+      "url": "/api/tasks",
+      "onSuccess": {
+        "binding": "$.tasks"
+      }
+    },
+    "openCreateTask": {
+      "type": "modal",
+      "operation": "open",
+      "modalId": "create-task"
+    },
+    "closeCreateTask": {
+      "type": "modal",
+      "operation": "close",
+      "modalId": "create-task"
+    },
+    "createTask": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "http",
+          "method": "POST",
+          "url": "/api/tasks",
+          "body": "$.newTask"
+        },
+        {
+          "type": "modal",
+          "operation": "close",
+          "modalId": "create-task"
+        },
+        "actions.fetchTasks"
+      ]
+    },
+    "openTaskDetails": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "data",
+          "operation": "set",
+          "binding": "$.selectedTask",
+          "value": "$.clickedTask"
+        },
+        {
+          "type": "modal",
+          "operation": "open",
+          "modalId": "task-details"
+        }
+      ]
+    },
+    "closeTaskDetails": {
+      "type": "modal",
+      "operation": "close",
+      "modalId": "task-details"
+    },
+    "updateTaskStatus": {
+      "type": "http",
+      "method": "PATCH",
+      "url": "/api/tasks/{{selectedTask.id}}",
+      "body": {"status": "$.selectedTask.status"},
+      "onSuccess": "actions.fetchTasks"
+    },
+    "confirmDeleteTask": {
+      "type": "modal",
+      "operation": "open",
+      "modalId": "confirm-delete"
+    },
+    "closeConfirmDelete": {
+      "type": "modal",
+      "operation": "close",
+      "modalId": "confirm-delete"
+    },
+    "deleteTask": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "http",
+          "method": "DELETE",
+          "url": "/api/tasks/{{selectedTask.id}}"
+        },
+        {
+          "type": "modal",
+          "operation": "close",
+          "modalId": "confirm-delete"
+        },
+        {
+          "type": "modal",
+          "operation": "close",
+          "modalId": "task-details"
+        },
+        "actions.fetchTasks"
+      ]
+    },
+    "addComment": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "http",
+          "method": "POST",
+          "url": "/api/tasks/{{selectedTask.id}}/comments",
+          "body": {"text": "$.newComment"}
+        },
+        {
+          "type": "data",
+          "operation": "set",
+          "binding": "$.newComment",
+          "value": ""
+        },
+        "actions.fetchTasks"
+      ]
+    },
+    "openFilters": {
+      "type": "modal",
+      "operation": "open",
+      "modalId": "filters"
+    },
+    "applyFilters": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "http",
+          "method": "GET",
+          "url": "/api/tasks?filters={{filters}}"
+        },
+        {
+          "type": "modal",
+          "operation": "close",
+          "modalId": "filters"
+        }
+      ]
+    },
+    "clearFilters": {
+      "type": "data",
+      "operation": "set",
+      "binding": "$.filters",
+      "value": {}
+    },
+    "openInviteUser": {
+      "type": "modal",
+      "operation": "open",
+      "modalId": "invite-user"
+    }
+  },
+
+  "platformHints": {
+    "web": {
+      "responsive": true
+    }
+  }
+}

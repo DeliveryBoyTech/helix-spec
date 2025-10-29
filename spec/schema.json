@@ -1,0 +1,986 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://helixui.org/v0.1/schema.json",
+  "title": "HelixUI Specification v0.1",
+  "description": "JSON Schema for HelixUI - Universal UI Intermediate Representation",
+  "type": "object",
+  "required": ["version", "id", "root"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema URL"
+    },
+    "version": {
+      "type": "string",
+      "const": "0.1",
+      "description": "HelixUI specification version"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this UI document"
+    },
+    "meta": {
+      "$ref": "#/definitions/meta"
+    },
+    "root": {
+      "$ref": "#/definitions/component"
+    },
+    "data": {
+      "$ref": "#/definitions/data"
+    },
+    "actions": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/action"
+      }
+    },
+    "styles": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/styleObject"
+      }
+    },
+    "platformHints": {
+      "$ref": "#/definitions/platformHints"
+    }
+  },
+  "definitions": {
+    "meta": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Human-readable name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of this UI"
+        },
+        "author": {
+          "type": "string",
+          "description": "Author or tool name"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        }
+      }
+    },
+    "component": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "container",
+            "flex",
+            "grid",
+            "stack",
+            "text",
+            "input",
+            "button",
+            "image",
+            "link",
+            "select",
+            "checkbox",
+            "radio",
+            "table",
+            "modal",
+            "form"
+          ]
+        },
+        "className": {
+          "type": "string",
+          "description": "CSS classes (Tailwind hints)"
+        },
+        "style": {
+          "$ref": "#/definitions/styleObject"
+        },
+        "styleRef": {
+          "type": "string",
+          "description": "Reference to named style"
+        },
+        "binding": {
+          "type": "string",
+          "description": "Data binding path (JSON Path)"
+        },
+        "condition": {
+          "type": "string",
+          "description": "Conditional rendering expression"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "container"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/containerComponent"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "flex"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/flexComponent"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "grid"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/gridComponent"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "stack"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/stackComponent"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "text"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/textComponent"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "input"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/inputComponent"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "button"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/buttonComponent"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "image"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/imageComponent"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "link"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/linkComponent"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "select"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/selectComponent"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "checkbox"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/checkboxComponent"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "radio"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/radioComponent"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "table"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/tableComponent"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "modal"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/modalComponent"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "form"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/formComponent"
+          }
+        }
+      ]
+    },
+    "containerComponent": {
+      "type": "object",
+      "properties": {
+        "layout": {
+          "$ref": "#/definitions/layout"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/component"
+          }
+        }
+      }
+    },
+    "flexComponent": {
+      "type": "object",
+      "properties": {
+        "direction": {
+          "type": "string",
+          "enum": ["row", "column", "row-reverse", "column-reverse"]
+        },
+        "justify": {
+          "type": "string",
+          "enum": ["start", "end", "center", "space-between", "space-around", "space-evenly"]
+        },
+        "align": {
+          "type": "string",
+          "enum": ["start", "end", "center", "stretch", "baseline"]
+        },
+        "gap": {
+          "type": "number"
+        },
+        "wrap": {
+          "type": "boolean"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/component"
+          }
+        }
+      }
+    },
+    "gridComponent": {
+      "type": "object",
+      "properties": {
+        "columns": {
+          "type": "string",
+          "description": "CSS grid-template-columns value"
+        },
+        "rows": {
+          "type": "string",
+          "description": "CSS grid-template-rows value"
+        },
+        "gap": {
+          "type": "number"
+        },
+        "columnGap": {
+          "type": "number"
+        },
+        "rowGap": {
+          "type": "number"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/component"
+          }
+        }
+      }
+    },
+    "stackComponent": {
+      "type": "object",
+      "properties": {
+        "direction": {
+          "type": "string",
+          "enum": ["vertical", "horizontal"]
+        },
+        "spacing": {
+          "type": "number"
+        },
+        "alignment": {
+          "type": "string",
+          "enum": ["start", "center", "end", "stretch"]
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/component"
+          }
+        }
+      }
+    },
+    "textComponent": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "variant": {
+          "type": "string",
+          "enum": ["h1", "h2", "h3", "h4", "h5", "h6", "body", "caption", "label"]
+        }
+      }
+    },
+    "inputComponent": {
+      "type": "object",
+      "properties": {
+        "variant": {
+          "type": "string",
+          "enum": ["text", "email", "password", "number", "url", "tel", "search"]
+        },
+        "placeholder": {
+          "type": "string"
+        },
+        "required": {
+          "oneOf": [
+            {"type": "boolean"},
+            {"type": "string"}
+          ]
+        },
+        "disabled": {
+          "type": "boolean"
+        },
+        "onChange": {
+          "type": "string"
+        },
+        "validation": {
+          "$ref": "#/definitions/validation"
+        }
+      }
+    },
+    "buttonComponent": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "variant": {
+          "type": "string",
+          "enum": ["primary", "secondary", "danger", "ghost", "link"]
+        },
+        "action": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["button", "submit", "reset"]
+        }
+      }
+    },
+    "imageComponent": {
+      "type": "object",
+      "properties": {
+        "src": {
+          "type": "string"
+        },
+        "alt": {
+          "type": "string"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        },
+        "fit": {
+          "type": "string",
+          "enum": ["cover", "contain", "fill", "none"]
+        }
+      }
+    },
+    "linkComponent": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string",
+          "enum": ["_self", "_blank", "_parent", "_top"]
+        },
+        "action": {
+          "type": "string"
+        }
+      }
+    },
+    "selectComponent": {
+      "type": "object",
+      "properties": {
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["value", "label"],
+            "properties": {
+              "value": {
+                "type": ["string", "number", "boolean"]
+              },
+              "label": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "optionsBinding": {
+          "type": "string"
+        },
+        "placeholder": {
+          "type": "string"
+        },
+        "multiple": {
+          "type": "boolean"
+        }
+      }
+    },
+    "checkboxComponent": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "radioComponent": {
+      "type": "object",
+      "properties": {
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["value", "label"],
+            "properties": {
+              "value": {
+                "type": ["string", "number", "boolean"]
+              },
+              "label": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "tableComponent": {
+      "type": "object",
+      "properties": {
+        "columns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/tableColumn"
+          }
+        },
+        "pagination": {
+          "oneOf": [
+            {"type": "boolean"},
+            {
+              "type": "object",
+              "properties": {
+                "pageSize": {"type": "number"},
+                "showSizeSelector": {"type": "boolean"},
+                "pageSizeOptions": {
+                  "type": "array",
+                  "items": {"type": "number"}
+                }
+              }
+            }
+          ]
+        },
+        "selectable": {
+          "type": "boolean"
+        },
+        "onSelectionChange": {
+          "type": "string"
+        }
+      }
+    },
+    "tableColumn": {
+      "type": "object",
+      "required": ["key"],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "sortable": {
+          "type": "boolean"
+        },
+        "width": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["text", "actions"]
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {"type": "string"},
+              "action": {"type": "string"},
+              "variant": {"type": "string"},
+              "icon": {"type": "string"}
+            }
+          }
+        },
+        "render": {
+          "$ref": "#/definitions/component"
+        }
+      }
+    },
+    "modalComponent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "size": {
+          "type": "string",
+          "enum": ["small", "medium", "large", "fullscreen"]
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/component"
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {"type": "string"},
+              "action": {"type": "string"},
+              "variant": {"type": "string"}
+            }
+          }
+        },
+        "closeOnBackdrop": {
+          "type": "boolean"
+        }
+      }
+    },
+    "formComponent": {
+      "type": "object",
+      "properties": {
+        "onSubmit": {
+          "type": "string"
+        },
+        "validation": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/validation"
+          }
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/component"
+          }
+        }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": ["flex", "grid", "stack", "absolute"]
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["row", "column", "row-reverse", "column-reverse"]
+        },
+        "justify": {
+          "type": "string"
+        },
+        "align": {
+          "type": "string"
+        },
+        "gap": {
+          "oneOf": [
+            {"type": "number"},
+            {"$ref": "#/definitions/spacing"}
+          ]
+        },
+        "padding": {
+          "oneOf": [
+            {"type": "number"},
+            {"$ref": "#/definitions/spacing"}
+          ]
+        },
+        "margin": {
+          "oneOf": [
+            {"type": "number"},
+            {"$ref": "#/definitions/spacing"}
+          ]
+        }
+      }
+    },
+    "spacing": {
+      "type": "object",
+      "properties": {
+        "top": {"type": "number"},
+        "right": {"type": "number"},
+        "bottom": {"type": "number"},
+        "left": {"type": "number"},
+        "vertical": {"type": "number"},
+        "horizontal": {"type": "number"}
+      }
+    },
+    "styleObject": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["email", "url", "number", "integer"]
+        },
+        "minLength": {
+          "type": "number"
+        },
+        "maxLength": {
+          "type": "number"
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "pattern": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "object",
+          "description": "JSON Schema for data structure"
+        },
+        "initial": {
+          "type": "object",
+          "description": "Initial data values"
+        }
+      }
+    },
+    "action": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["http", "navigate", "modal", "data", "composite"]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "http"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/httpAction"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "navigate"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/navigateAction"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "modal"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/modalAction"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "data"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/dataAction"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "composite"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/compositeAction"
+          }
+        }
+      ]
+    },
+    "httpAction": {
+      "type": "object",
+      "required": ["method", "url"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["GET", "POST", "PUT", "DELETE", "PATCH"]
+        },
+        "url": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string",
+          "description": "Data binding or literal value"
+        },
+        "headers": {
+          "type": "object"
+        },
+        "debounce": {
+          "type": "number"
+        },
+        "onSuccess": {
+          "oneOf": [
+            {"type": "string"},
+            {
+              "type": "object",
+              "properties": {
+                "binding": {"type": "string"},
+                "action": {"type": "string"}
+              }
+            }
+          ]
+        },
+        "onError": {
+          "oneOf": [
+            {"type": "string"},
+            {
+              "type": "object",
+              "properties": {
+                "action": {"type": "string"}
+              }
+            }
+          ]
+        }
+      }
+    },
+    "navigateAction": {
+      "type": "object",
+      "required": ["url"],
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string",
+          "enum": ["_self", "_blank", "_parent", "_top"]
+        }
+      }
+    },
+    "modalAction": {
+      "type": "object",
+      "required": ["operation", "modalId"],
+      "properties": {
+        "operation": {
+          "type": "string",
+          "enum": ["open", "close", "toggle"]
+        },
+        "modalId": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        }
+      }
+    },
+    "dataAction": {
+      "type": "object",
+      "required": ["operation", "binding"],
+      "properties": {
+        "operation": {
+          "type": "string",
+          "enum": ["set", "merge", "push", "remove"]
+        },
+        "binding": {
+          "type": "string"
+        },
+        "value": {
+          "description": "Value to set/merge"
+        }
+      }
+    },
+    "compositeAction": {
+      "type": "object",
+      "required": ["actions"],
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {"type": "string"},
+              {"$ref": "#/definitions/action"}
+            ]
+          }
+        },
+        "stopOnError": {
+          "type": "boolean"
+        }
+      }
+    },
+    "platformHints": {
+      "type": "object",
+      "properties": {
+        "web": {
+          "type": "object",
+          "properties": {
+            "responsive": {"type": "boolean"},
+            "breakpoints": {
+              "type": "object",
+              "properties": {
+                "mobile": {"type": "number"},
+                "tablet": {"type": "number"},
+                "desktop": {"type": "number"}
+              }
+            }
+          }
+        },
+        "mobile": {
+          "type": "object",
+          "properties": {
+            "scrollable": {"type": "boolean"},
+            "keyboardAvoidance": {"type": "boolean"}
+          }
+        },
+        "desktop": {
+          "type": "object",
+          "properties": {
+            "windowTitle": {"type": "string"},
+            "minWidth": {"type": "number"},
+            "minHeight": {"type": "number"}
+          }
+        }
+      }
+    }
+  }
+}

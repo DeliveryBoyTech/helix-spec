@@ -1,0 +1,291 @@
+{
+  "$schema": "https://helixui.org/v0.1/schema.json",
+  "version": "0.1",
+  "id": "user-form",
+
+  "meta": {
+    "name": "User Form",
+    "description": "Create or edit user form with validation",
+    "author": "HelixUI",
+    "created": "2025-10-27T00:00:00Z"
+  },
+
+  "root": {
+    "type": "container",
+    "className": "max-w-2xl mx-auto",
+    "layout": {
+      "strategy": "flex",
+      "direction": "column",
+      "gap": 24,
+      "padding": 32
+    },
+    "children": [
+      {
+        "type": "text",
+        "variant": "h1",
+        "binding": "$.isEdit",
+        "content": "{{isEdit ? 'Edit User' : 'Add User'}}",
+        "className": "text-3xl font-bold mb-6"
+      },
+      {
+        "type": "form",
+        "binding": "$.formData",
+        "onSubmit": "actions.submitForm",
+        "className": "bg-white rounded-lg shadow p-6",
+        "children": [
+          {
+            "type": "stack",
+            "direction": "vertical",
+            "spacing": 24,
+            "children": [
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "label",
+                    "content": "Full Name",
+                    "className": "block mb-2 font-medium"
+                  },
+                  {
+                    "type": "input",
+                    "variant": "text",
+                    "binding": "$.formData.name",
+                    "placeholder": "John Doe",
+                    "required": true,
+                    "validation": {
+                      "required": true,
+                      "minLength": 2,
+                      "message": "Name must be at least 2 characters"
+                    },
+                    "className": "w-full px-3 py-2 border rounded"
+                  }
+                ]
+              },
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "label",
+                    "content": "Email",
+                    "className": "block mb-2 font-medium"
+                  },
+                  {
+                    "type": "input",
+                    "variant": "email",
+                    "binding": "$.formData.email",
+                    "placeholder": "john@example.com",
+                    "required": true,
+                    "validation": {
+                      "type": "email",
+                      "required": true,
+                      "message": "Valid email is required"
+                    },
+                    "className": "w-full px-3 py-2 border rounded"
+                  }
+                ]
+              },
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "label",
+                    "content": "Role",
+                    "className": "block mb-2 font-medium"
+                  },
+                  {
+                    "type": "select",
+                    "binding": "$.formData.role",
+                    "placeholder": "Select a role",
+                    "required": true,
+                    "options": [
+                      {"value": "admin", "label": "Administrator"},
+                      {"value": "editor", "label": "Editor"},
+                      {"value": "viewer", "label": "Viewer"}
+                    ],
+                    "className": "w-full px-3 py-2 border rounded"
+                  }
+                ]
+              },
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "label",
+                    "content": "Password",
+                    "className": "block mb-2 font-medium"
+                  },
+                  {
+                    "type": "input",
+                    "variant": "password",
+                    "binding": "$.formData.password",
+                    "placeholder": "••••••••",
+                    "required": "{{!isEdit}}",
+                    "validation": {
+                      "minLength": 8,
+                      "message": "Password must be at least 8 characters"
+                    },
+                    "className": "w-full px-3 py-2 border rounded"
+                  },
+                  {
+                    "type": "text",
+                    "variant": "caption",
+                    "content": "Leave blank to keep current password",
+                    "className": "text-sm text-gray-500 mt-1",
+                    "condition": "$.isEdit"
+                  }
+                ]
+              },
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "label",
+                    "content": "Status",
+                    "className": "block mb-2 font-medium"
+                  },
+                  {
+                    "type": "radio",
+                    "binding": "$.formData.status",
+                    "options": [
+                      {"value": "active", "label": "Active"},
+                      {"value": "inactive", "label": "Inactive"}
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "checkbox",
+                    "binding": "$.formData.sendWelcomeEmail",
+                    "label": "Send welcome email to user",
+                    "condition": "{{!isEdit}}"
+                  }
+                ]
+              },
+              {
+                "type": "flex",
+                "justify": "end",
+                "gap": 12,
+                "className": "mt-6",
+                "children": [
+                  {
+                    "type": "button",
+                    "label": "Cancel",
+                    "variant": "secondary",
+                    "action": "actions.cancel",
+                    "className": "px-4 py-2"
+                  },
+                  {
+                    "type": "button",
+                    "label": "{{isEdit ? 'Update User' : 'Create User'}}",
+                    "variant": "primary",
+                    "buttonType": "submit",
+                    "className": "px-4 py-2"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "isEdit": {"type": "boolean"},
+        "formData": {
+          "type": "object",
+          "properties": {
+            "id": {"type": "string"},
+            "name": {"type": "string"},
+            "email": {"type": "string"},
+            "role": {"type": "string"},
+            "password": {"type": "string"},
+            "status": {"type": "string"},
+            "sendWelcomeEmail": {"type": "boolean"}
+          },
+          "required": ["name", "email", "role"]
+        }
+      }
+    },
+    "initial": {
+      "isEdit": false,
+      "formData": {
+        "name": "",
+        "email": "",
+        "role": "",
+        "password": "",
+        "status": "active",
+        "sendWelcomeEmail": true
+      }
+    }
+  },
+
+  "actions": {
+    "loadUser": {
+      "type": "http",
+      "method": "GET",
+      "url": "/api/users/{{userId}}",
+      "onSuccess": {
+        "type": "composite",
+        "actions": [
+          {
+            "type": "data",
+            "operation": "set",
+            "binding": "$.formData",
+            "value": "$.response"
+          },
+          {
+            "type": "data",
+            "operation": "set",
+            "binding": "$.isEdit",
+            "value": true
+          }
+        ]
+      }
+    },
+    "submitForm": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "http",
+          "method": "{{isEdit ? 'PUT' : 'POST'}}",
+          "url": "{{isEdit ? '/api/users/' + formData.id : '/api/users'}}",
+          "body": "$.formData",
+          "onSuccess": "actions.onSaveSuccess",
+          "onError": "actions.onSaveError"
+        }
+      ]
+    },
+    "onSaveSuccess": {
+      "type": "navigate",
+      "url": "/users"
+    },
+    "onSaveError": {
+      "type": "data",
+      "operation": "set",
+      "binding": "$.error",
+      "value": "$.response.message"
+    },
+    "cancel": {
+      "type": "navigate",
+      "url": "/users"
+    }
+  },
+
+  "platformHints": {
+    "web": {
+      "responsive": true
+    }
+  }
+}

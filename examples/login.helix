@@ -1,0 +1,484 @@
+{
+  "$schema": "https://helixui.org/v0.1/schema.json",
+  "version": "0.1",
+  "id": "auth-flow",
+
+  "meta": {
+    "name": "Authentication Flow",
+    "description": "Login and signup interface with social auth options",
+    "author": "HelixUI",
+    "created": "2025-10-27T00:00:00Z"
+  },
+
+  "root": {
+    "type": "container",
+    "className": "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100",
+    "layout": {
+      "strategy": "flex",
+      "direction": "column",
+      "justify": "center",
+      "align": "center",
+      "padding": 16
+    },
+    "children": [
+      {
+        "type": "container",
+        "className": "w-full max-w-md",
+        "children": [
+          {
+            "type": "container",
+            "className": "bg-white rounded-lg shadow-xl p-8",
+            "children": [
+              {
+                "type": "stack",
+                "direction": "vertical",
+                "spacing": 24,
+                "children": [
+                  {
+                    "type": "stack",
+                    "direction": "vertical",
+                    "spacing": 8,
+                    "className": "text-center",
+                    "children": [
+                      {
+                        "type": "text",
+                        "variant": "h1",
+                        "content": "Welcome Back",
+                        "condition": "{{mode === 'login'}}",
+                        "binding": "$.mode",
+                        "className": "text-3xl font-bold text-gray-900"
+                      },
+                      {
+                        "type": "text",
+                        "variant": "h1",
+                        "content": "Create Account",
+                        "condition": "{{mode === 'signup'}}",
+                        "binding": "$.mode",
+                        "className": "text-3xl font-bold text-gray-900"
+                      },
+                      {
+                        "type": "text",
+                        "variant": "caption",
+                        "content": "Sign in to continue to your account",
+                        "condition": "{{mode === 'login'}}",
+                        "binding": "$.mode",
+                        "className": "text-gray-600"
+                      },
+                      {
+                        "type": "text",
+                        "variant": "caption",
+                        "content": "Sign up to get started",
+                        "condition": "{{mode === 'signup'}}",
+                        "binding": "$.mode",
+                        "className": "text-gray-600"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "stack",
+                    "direction": "vertical",
+                    "spacing": 12,
+                    "children": [
+                      {
+                        "type": "button",
+                        "label": "Continue with Google",
+                        "variant": "secondary",
+                        "action": "actions.loginWithGoogle",
+                        "className": "w-full py-3 flex items-center justify-center gap-2 border-2"
+                      },
+                      {
+                        "type": "button",
+                        "label": "Continue with GitHub",
+                        "variant": "secondary",
+                        "action": "actions.loginWithGithub",
+                        "className": "w-full py-3 flex items-center justify-center gap-2 border-2"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "container",
+                    "className": "relative",
+                    "children": [
+                      {
+                        "type": "container",
+                        "className": "absolute inset-0 flex items-center",
+                        "children": [
+                          {
+                            "type": "container",
+                            "className": "w-full border-t border-gray-300"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "container",
+                        "className": "relative flex justify-center text-sm",
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "caption",
+                            "content": "Or continue with email",
+                            "className": "px-2 bg-white text-gray-500"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "form",
+                    "binding": "$.formData",
+                    "onSubmit": "actions.submitForm",
+                    "children": [
+                      {
+                        "type": "stack",
+                        "direction": "vertical",
+                        "spacing": 16,
+                        "children": [
+                          {
+                            "type": "container",
+                            "condition": "{{mode === 'signup'}}",
+                            "binding": "$.mode",
+                            "children": [
+                              {
+                                "type": "text",
+                                "variant": "label",
+                                "content": "Full Name",
+                                "className": "block mb-2 font-medium text-gray-700"
+                              },
+                              {
+                                "type": "input",
+                                "variant": "text",
+                                "binding": "$.formData.name",
+                                "placeholder": "John Doe",
+                                "required": true,
+                                "className": "w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "container",
+                            "children": [
+                              {
+                                "type": "text",
+                                "variant": "label",
+                                "content": "Email Address",
+                                "className": "block mb-2 font-medium text-gray-700"
+                              },
+                              {
+                                "type": "input",
+                                "variant": "email",
+                                "binding": "$.formData.email",
+                                "placeholder": "you@example.com",
+                                "required": true,
+                                "validation": {
+                                  "type": "email",
+                                  "required": true,
+                                  "message": "Please enter a valid email"
+                                },
+                                "className": "w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "container",
+                            "children": [
+                              {
+                                "type": "flex",
+                                "justify": "space-between",
+                                "align": "center",
+                                "className": "mb-2",
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "variant": "label",
+                                    "content": "Password",
+                                    "className": "font-medium text-gray-700"
+                                  },
+                                  {
+                                    "type": "link",
+                                    "label": "Forgot?",
+                                    "action": "actions.forgotPassword",
+                                    "condition": "{{mode === 'login'}}",
+                                    "binding": "$.mode",
+                                    "className": "text-sm text-blue-600 hover:underline"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "input",
+                                "variant": "password",
+                                "binding": "$.formData.password",
+                                "placeholder": "••••••••",
+                                "required": true,
+                                "validation": {
+                                  "required": true,
+                                  "minLength": 8,
+                                  "message": "Password must be at least 8 characters"
+                                },
+                                "className": "w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "container",
+                            "condition": "{{mode === 'signup'}}",
+                            "binding": "$.mode",
+                            "children": [
+                              {
+                                "type": "text",
+                                "variant": "label",
+                                "content": "Confirm Password",
+                                "className": "block mb-2 font-medium text-gray-700"
+                              },
+                              {
+                                "type": "input",
+                                "variant": "password",
+                                "binding": "$.formData.confirmPassword",
+                                "placeholder": "••••••••",
+                                "required": true,
+                                "className": "w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "container",
+                            "condition": "{{mode === 'login'}}",
+                            "binding": "$.mode",
+                            "children": [
+                              {
+                                "type": "flex",
+                                "justify": "space-between",
+                                "align": "center",
+                                "children": [
+                                  {
+                                    "type": "checkbox",
+                                    "binding": "$.formData.rememberMe",
+                                    "label": "Remember me"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "container",
+                            "condition": "{{mode === 'signup'}}",
+                            "binding": "$.mode",
+                            "children": [
+                              {
+                                "type": "checkbox",
+                                "binding": "$.formData.agreeToTerms",
+                                "required": true,
+                                "label": "I agree to the Terms of Service and Privacy Policy"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "container",
+                            "condition": "$.error",
+                            "className": "p-3 bg-red-50 border border-red-200 rounded-lg",
+                            "children": [
+                              {
+                                "type": "text",
+                                "variant": "caption",
+                                "binding": "$.error",
+                                "className": "text-red-600 text-sm"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "button",
+                            "label": "Sign In",
+                            "condition": "{{mode === 'login'}}",
+                            "binding": "$.mode",
+                            "variant": "primary",
+                            "buttonType": "submit",
+                            "className": "w-full py-3 text-lg font-medium"
+                          },
+                          {
+                            "type": "button",
+                            "label": "Create Account",
+                            "condition": "{{mode === 'signup'}}",
+                            "binding": "$.mode",
+                            "variant": "primary",
+                            "buttonType": "submit",
+                            "className": "w-full py-3 text-lg font-medium"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "container",
+                    "className": "text-center",
+                    "children": [
+                      {
+                        "type": "flex",
+                        "justify": "center",
+                        "gap": 4,
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "caption",
+                            "content": "Don't have an account?",
+                            "condition": "{{mode === 'login'}}",
+                            "binding": "$.mode",
+                            "className": "text-gray-600"
+                          },
+                          {
+                            "type": "link",
+                            "label": "Sign up",
+                            "action": "actions.switchToSignup",
+                            "condition": "{{mode === 'login'}}",
+                            "binding": "$.mode",
+                            "className": "text-blue-600 font-medium hover:underline"
+                          },
+                          {
+                            "type": "text",
+                            "variant": "caption",
+                            "content": "Already have an account?",
+                            "condition": "{{mode === 'signup'}}",
+                            "binding": "$.mode",
+                            "className": "text-gray-600"
+                          },
+                          {
+                            "type": "link",
+                            "label": "Sign in",
+                            "action": "actions.switchToLogin",
+                            "condition": "{{mode === 'signup'}}",
+                            "binding": "$.mode",
+                            "className": "text-blue-600 font-medium hover:underline"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "variant": "caption",
+            "content": "© 2025 Your Company. All rights reserved.",
+            "className": "text-center text-gray-500 mt-8"
+          }
+        ]
+      }
+    ]
+  },
+
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["login", "signup"]
+        },
+        "formData": {
+          "type": "object",
+          "properties": {
+            "name": {"type": "string"},
+            "email": {"type": "string"},
+            "password": {"type": "string"},
+            "confirmPassword": {"type": "string"},
+            "rememberMe": {"type": "boolean"},
+            "agreeToTerms": {"type": "boolean"}
+          }
+        },
+        "error": {"type": "string"}
+      }
+    },
+    "initial": {
+      "mode": "login",
+      "formData": {
+        "name": "",
+        "email": "",
+        "password": "",
+        "confirmPassword": "",
+        "rememberMe": false,
+        "agreeToTerms": false
+      },
+      "error": null
+    }
+  },
+
+  "actions": {
+    "submitForm": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "http",
+          "method": "POST",
+          "url": "{{mode === 'login' ? '/api/auth/login' : '/api/auth/signup'}}",
+          "body": "$.formData",
+          "onSuccess": {
+            "type": "navigate",
+            "url": "/dashboard"
+          },
+          "onError": {
+            "type": "data",
+            "operation": "set",
+            "binding": "$.error",
+            "value": "$.response.message"
+          }
+        }
+      ]
+    },
+    "loginWithGoogle": {
+      "type": "navigate",
+      "url": "/api/auth/google"
+    },
+    "loginWithGithub": {
+      "type": "navigate",
+      "url": "/api/auth/github"
+    },
+    "switchToSignup": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "data",
+          "operation": "set",
+          "binding": "$.mode",
+          "value": "signup"
+        },
+        {
+          "type": "data",
+          "operation": "set",
+          "binding": "$.error",
+          "value": null
+        }
+      ]
+    },
+    "switchToLogin": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "data",
+          "operation": "set",
+          "binding": "$.mode",
+          "value": "login"
+        },
+        {
+          "type": "data",
+          "operation": "set",
+          "binding": "$.error",
+          "value": null
+        }
+      ]
+    },
+    "forgotPassword": {
+      "type": "modal",
+      "operation": "open",
+      "modalId": "forgot-password"
+    }
+  },
+
+  "platformHints": {
+    "web": {
+      "responsive": true
+    },
+    "mobile": {
+      "keyboardAvoidance": true
+    }
+  }
+}

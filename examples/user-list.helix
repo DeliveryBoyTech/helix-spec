@@ -1,0 +1,249 @@
+{
+  "$schema": "https://helixui.org/v0.1/schema.json",
+  "version": "0.1",
+  "id": "user-list",
+
+  "meta": {
+    "name": "User List",
+    "description": "User management interface with table, search, and CRUD operations",
+    "author": "HelixUI",
+    "created": "2025-10-27T00:00:00Z"
+  },
+
+  "root": {
+    "type": "container",
+    "className": "max-w-7xl mx-auto",
+    "layout": {
+      "strategy": "flex",
+      "direction": "column",
+      "gap": 24,
+      "padding": 32
+    },
+    "children": [
+      {
+        "type": "flex",
+        "justify": "space-between",
+        "align": "center",
+        "className": "mb-6",
+        "children": [
+          {
+            "type": "text",
+            "variant": "h1",
+            "content": "Users",
+            "className": "text-3xl font-bold"
+          },
+          {
+            "type": "button",
+            "label": "Add User",
+            "variant": "primary",
+            "action": "actions.openAddUserModal",
+            "className": "px-4 py-2"
+          }
+        ]
+      },
+      {
+        "type": "flex",
+        "gap": 16,
+        "className": "mb-4",
+        "children": [
+          {
+            "type": "input",
+            "variant": "search",
+            "binding": "$.searchQuery",
+            "placeholder": "Search users...",
+            "onChange": "actions.searchUsers",
+            "className": "flex-1"
+          },
+          {
+            "type": "select",
+            "binding": "$.roleFilter",
+            "placeholder": "All Roles",
+            "options": [
+              {"value": "all", "label": "All Roles"},
+              {"value": "admin", "label": "Admin"},
+              {"value": "editor", "label": "Editor"},
+              {"value": "viewer", "label": "Viewer"}
+            ],
+            "onChange": "actions.filterByRole"
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "binding": "$.users",
+        "className": "bg-white rounded-lg shadow",
+        "columns": [
+          {
+            "key": "name",
+            "label": "Name",
+            "sortable": true,
+            "width": "25%"
+          },
+          {
+            "key": "email",
+            "label": "Email",
+            "sortable": true,
+            "width": "30%"
+          },
+          {
+            "key": "role",
+            "label": "Role",
+            "sortable": true,
+            "width": "20%"
+          },
+          {
+            "key": "status",
+            "label": "Status",
+            "width": "15%",
+            "render": {
+              "type": "text",
+              "binding": "$.status",
+              "className": {
+                "active": "px-2 py-1 bg-green-100 text-green-800 rounded",
+                "inactive": "px-2 py-1 bg-gray-100 text-gray-800 rounded"
+              }
+            }
+          },
+          {
+            "key": "actions",
+            "label": "Actions",
+            "type": "actions",
+            "width": "10%",
+            "actions": [
+              {
+                "label": "Edit",
+                "action": "actions.editUser",
+                "icon": "edit"
+              },
+              {
+                "label": "Delete",
+                "action": "actions.confirmDelete",
+                "variant": "danger",
+                "icon": "trash"
+              }
+            ]
+          }
+        ],
+        "pagination": {
+          "pageSize": 25,
+          "showSizeSelector": true,
+          "pageSizeOptions": [10, 25, 50, 100]
+        },
+        "selectable": true,
+        "onSelectionChange": "actions.updateSelection"
+      }
+    ]
+  },
+
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "name": {"type": "string"},
+              "email": {"type": "string"},
+              "role": {"type": "string"},
+              "status": {"type": "string", "enum": ["active", "inactive"]}
+            }
+          }
+        },
+        "searchQuery": {"type": "string"},
+        "roleFilter": {"type": "string"},
+        "selectedUsers": {"type": "array"}
+      }
+    },
+    "initial": {
+      "users": [],
+      "searchQuery": "",
+      "roleFilter": "all",
+      "selectedUsers": []
+    }
+  },
+
+  "actions": {
+    "fetchUsers": {
+      "type": "http",
+      "method": "GET",
+      "url": "/api/users",
+      "onSuccess": {
+        "binding": "$.users"
+      },
+      "onError": {
+        "action": "actions.showError"
+      }
+    },
+    "searchUsers": {
+      "type": "http",
+      "method": "GET",
+      "url": "/api/users?search={{searchQuery}}",
+      "debounce": 300,
+      "onSuccess": {
+        "binding": "$.users"
+      }
+    },
+    "filterByRole": {
+      "type": "http",
+      "method": "GET",
+      "url": "/api/users?role={{roleFilter}}",
+      "onSuccess": {
+        "binding": "$.users"
+      }
+    },
+    "openAddUserModal": {
+      "type": "modal",
+      "operation": "open",
+      "modalId": "add-user-modal"
+    },
+    "editUser": {
+      "type": "navigate",
+      "url": "/users/{{id}}/edit"
+    },
+    "confirmDelete": {
+      "type": "modal",
+      "operation": "open",
+      "modalId": "confirm-delete",
+      "data": {
+        "userId": "$.id",
+        "userName": "$.name"
+      }
+    },
+    "deleteUser": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "http",
+          "method": "DELETE",
+          "url": "/api/users/{{userId}}"
+        },
+        {
+          "type": "modal",
+          "operation": "close",
+          "modalId": "confirm-delete"
+        },
+        "actions.fetchUsers"
+      ]
+    },
+    "updateSelection": {
+      "type": "data",
+      "operation": "set",
+      "binding": "$.selectedUsers",
+      "value": "$.table.selectedRows"
+    }
+  },
+
+  "platformHints": {
+    "web": {
+      "responsive": true,
+      "breakpoints": {
+        "mobile": 640,
+        "tablet": 768,
+        "desktop": 1024
+      }
+    }
+  }
+}

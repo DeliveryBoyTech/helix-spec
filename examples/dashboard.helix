@@ -1,0 +1,462 @@
+{
+  "$schema": "https://helixui.org/v0.1/schema.json",
+  "version": "0.1",
+  "id": "admin-dashboard",
+
+  "meta": {
+    "name": "Admin Dashboard",
+    "description": "Overview dashboard with statistics, charts, and recent activity",
+    "author": "HelixUI",
+    "created": "2025-10-27T00:00:00Z"
+  },
+
+  "root": {
+    "type": "container",
+    "className": "max-w-7xl mx-auto",
+    "layout": {
+      "strategy": "flex",
+      "direction": "column",
+      "gap": 24,
+      "padding": 32
+    },
+    "children": [
+      {
+        "type": "text",
+        "variant": "h1",
+        "content": "Dashboard",
+        "className": "text-3xl font-bold mb-6"
+      },
+      {
+        "type": "grid",
+        "columns": "repeat(auto-fit, minmax(250px, 1fr))",
+        "gap": 16,
+        "className": "mb-8",
+        "children": [
+          {
+            "type": "container",
+            "className": "bg-white rounded-lg shadow p-6",
+            "children": [
+              {
+                "type": "text",
+                "variant": "caption",
+                "content": "Total Users",
+                "className": "text-gray-500 uppercase text-sm mb-2"
+              },
+              {
+                "type": "text",
+                "variant": "h2",
+                "binding": "$.stats.totalUsers",
+                "className": "text-4xl font-bold text-blue-600"
+              },
+              {
+                "type": "text",
+                "variant": "caption",
+                "content": "+12% from last month",
+                "className": "text-green-500 text-sm mt-2"
+              }
+            ]
+          },
+          {
+            "type": "container",
+            "className": "bg-white rounded-lg shadow p-6",
+            "children": [
+              {
+                "type": "text",
+                "variant": "caption",
+                "content": "Active Sessions",
+                "className": "text-gray-500 uppercase text-sm mb-2"
+              },
+              {
+                "type": "text",
+                "variant": "h2",
+                "binding": "$.stats.activeSessions",
+                "className": "text-4xl font-bold text-green-600"
+              },
+              {
+                "type": "text",
+                "variant": "caption",
+                "content": "Right now",
+                "className": "text-gray-400 text-sm mt-2"
+              }
+            ]
+          },
+          {
+            "type": "container",
+            "className": "bg-white rounded-lg shadow p-6",
+            "children": [
+              {
+                "type": "text",
+                "variant": "caption",
+                "content": "Total Content",
+                "className": "text-gray-500 uppercase text-sm mb-2"
+              },
+              {
+                "type": "text",
+                "variant": "h2",
+                "binding": "$.stats.totalContent",
+                "className": "text-4xl font-bold text-purple-600"
+              },
+              {
+                "type": "text",
+                "variant": "caption",
+                "content": "245 published",
+                "className": "text-gray-400 text-sm mt-2"
+              }
+            ]
+          },
+          {
+            "type": "container",
+            "className": "bg-white rounded-lg shadow p-6",
+            "children": [
+              {
+                "type": "text",
+                "variant": "caption",
+                "content": "Storage Used",
+                "className": "text-gray-500 uppercase text-sm mb-2"
+              },
+              {
+                "type": "text",
+                "variant": "h2",
+                "content": "2.4 GB",
+                "className": "text-4xl font-bold text-orange-600"
+              },
+              {
+                "type": "text",
+                "variant": "caption",
+                "content": "of 10 GB",
+                "className": "text-gray-400 text-sm mt-2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "grid",
+        "columns": "2fr 1fr",
+        "gap": 16,
+        "className": "mb-8",
+        "children": [
+          {
+            "type": "container",
+            "className": "bg-white rounded-lg shadow p-6",
+            "children": [
+              {
+                "type": "text",
+                "variant": "h3",
+                "content": "Recent Activity",
+                "className": "text-xl font-bold mb-4"
+              },
+              {
+                "type": "stack",
+                "direction": "vertical",
+                "spacing": 12,
+                "children": [
+                  {
+                    "type": "flex",
+                    "gap": 12,
+                    "align": "start",
+                    "className": "pb-3 border-b",
+                    "children": [
+                      {
+                        "type": "container",
+                        "className": "w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center",
+                        "children": [
+                          {
+                            "type": "text",
+                            "content": "👤",
+                            "className": "text-xl"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "container",
+                        "className": "flex-1",
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "body",
+                            "content": "New user registered: john@example.com",
+                            "className": "font-medium"
+                          },
+                          {
+                            "type": "text",
+                            "variant": "caption",
+                            "content": "2 minutes ago",
+                            "className": "text-gray-500 text-sm"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "flex",
+                    "gap": 12,
+                    "align": "start",
+                    "className": "pb-3 border-b",
+                    "children": [
+                      {
+                        "type": "container",
+                        "className": "w-10 h-10 bg-green-100 rounded-full flex items-center justify-center",
+                        "children": [
+                          {
+                            "type": "text",
+                            "content": "📝",
+                            "className": "text-xl"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "container",
+                        "className": "flex-1",
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "body",
+                            "content": "Article published: 'Getting Started with HelixUI'",
+                            "className": "font-medium"
+                          },
+                          {
+                            "type": "text",
+                            "variant": "caption",
+                            "content": "15 minutes ago",
+                            "className": "text-gray-500 text-sm"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "flex",
+                    "gap": 12,
+                    "align": "start",
+                    "className": "pb-3 border-b",
+                    "children": [
+                      {
+                        "type": "container",
+                        "className": "w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center",
+                        "children": [
+                          {
+                            "type": "text",
+                            "content": "⚙️",
+                            "className": "text-xl"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "container",
+                        "className": "flex-1",
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "body",
+                            "content": "System backup completed successfully",
+                            "className": "font-medium"
+                          },
+                          {
+                            "type": "text",
+                            "variant": "caption",
+                            "content": "1 hour ago",
+                            "className": "text-gray-500 text-sm"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "link",
+                "label": "View all activity →",
+                "href": "/activity",
+                "className": "text-blue-600 mt-4 inline-block"
+              }
+            ]
+          },
+          {
+            "type": "container",
+            "className": "bg-white rounded-lg shadow p-6",
+            "children": [
+              {
+                "type": "text",
+                "variant": "h3",
+                "content": "Quick Actions",
+                "className": "text-xl font-bold mb-4"
+              },
+              {
+                "type": "stack",
+                "direction": "vertical",
+                "spacing": 8,
+                "children": [
+                  {
+                    "type": "button",
+                    "label": "Add User",
+                    "variant": "secondary",
+                    "action": "actions.addUser",
+                    "className": "w-full justify-start px-4 py-2"
+                  },
+                  {
+                    "type": "button",
+                    "label": "Create Content",
+                    "variant": "secondary",
+                    "action": "actions.createContent",
+                    "className": "w-full justify-start px-4 py-2"
+                  },
+                  {
+                    "type": "button",
+                    "label": "View Reports",
+                    "variant": "secondary",
+                    "action": "actions.viewReports",
+                    "className": "w-full justify-start px-4 py-2"
+                  },
+                  {
+                    "type": "button",
+                    "label": "Settings",
+                    "variant": "secondary",
+                    "action": "actions.openSettings",
+                    "className": "w-full justify-start px-4 py-2"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "container",
+        "className": "bg-white rounded-lg shadow p-6",
+        "children": [
+          {
+            "type": "flex",
+            "justify": "space-between",
+            "align": "center",
+            "className": "mb-4",
+            "children": [
+              {
+                "type": "text",
+                "variant": "h3",
+                "content": "Recent Users",
+                "className": "text-xl font-bold"
+              },
+              {
+                "type": "link",
+                "label": "View all →",
+                "href": "/users",
+                "className": "text-blue-600"
+              }
+            ]
+          },
+          {
+            "type": "table",
+            "binding": "$.recentUsers",
+            "columns": [
+              {
+                "key": "name",
+                "label": "Name",
+                "width": "30%"
+              },
+              {
+                "key": "email",
+                "label": "Email",
+                "width": "35%"
+              },
+              {
+                "key": "role",
+                "label": "Role",
+                "width": "20%"
+              },
+              {
+                "key": "joined",
+                "label": "Joined",
+                "width": "15%"
+              }
+            ],
+            "pagination": false
+          }
+        ]
+      }
+    ]
+  },
+
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "stats": {
+          "type": "object",
+          "properties": {
+            "totalUsers": {"type": "number"},
+            "activeSessions": {"type": "number"},
+            "totalContent": {"type": "number"}
+          }
+        },
+        "recentUsers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "name": {"type": "string"},
+              "email": {"type": "string"},
+              "role": {"type": "string"},
+              "joined": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "initial": {
+      "stats": {
+        "totalUsers": 0,
+        "activeSessions": 0,
+        "totalContent": 0
+      },
+      "recentUsers": []
+    }
+  },
+
+  "actions": {
+    "fetchStats": {
+      "type": "http",
+      "method": "GET",
+      "url": "/api/dashboard/stats",
+      "onSuccess": {
+        "binding": "$.stats"
+      }
+    },
+    "fetchRecentUsers": {
+      "type": "http",
+      "method": "GET",
+      "url": "/api/users/recent?limit=5",
+      "onSuccess": {
+        "binding": "$.recentUsers"
+      }
+    },
+    "addUser": {
+      "type": "navigate",
+      "url": "/users/new"
+    },
+    "createContent": {
+      "type": "navigate",
+      "url": "/content/new"
+    },
+    "viewReports": {
+      "type": "navigate",
+      "url": "/reports"
+    },
+    "openSettings": {
+      "type": "navigate",
+      "url": "/settings"
+    }
+  },
+
+  "platformHints": {
+    "web": {
+      "responsive": true,
+      "breakpoints": {
+        "mobile": 640,
+        "tablet": 768,
+        "desktop": 1024
+      }
+    }
+  }
+}

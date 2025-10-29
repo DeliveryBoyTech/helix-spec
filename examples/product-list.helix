@@ -1,0 +1,637 @@
+{
+  "$schema": "https://helixui.org/v0.1/schema.json",
+  "version": "0.1",
+  "id": "product-catalog",
+
+  "meta": {
+    "name": "Product Catalog",
+    "description": "E-commerce product listing with filters, search, and cart",
+    "author": "HelixUI",
+    "created": "2025-10-27T00:00:00Z"
+  },
+
+  "root": {
+    "type": "container",
+    "className": "max-w-7xl mx-auto",
+    "layout": {
+      "strategy": "flex",
+      "direction": "column",
+      "gap": 24,
+      "padding": 32
+    },
+    "children": [
+      {
+        "type": "flex",
+        "justify": "space-between",
+        "align": "center",
+        "className": "mb-6",
+        "children": [
+          {
+            "type": "stack",
+            "direction": "vertical",
+            "spacing": 4,
+            "children": [
+              {
+                "type": "text",
+                "variant": "h1",
+                "content": "Shop All Products",
+                "className": "text-3xl font-bold"
+              },
+              {
+                "type": "text",
+                "variant": "caption",
+                "content": "{{filteredCount}} products",
+                "binding": "$.filteredCount",
+                "className": "text-gray-500"
+              }
+            ]
+          },
+          {
+            "type": "button",
+            "label": "Cart ({{cartCount}})",
+            "binding": "$.cartCount",
+            "variant": "primary",
+            "action": "actions.viewCart",
+            "className": "px-4 py-2"
+          }
+        ]
+      },
+      {
+        "type": "grid",
+        "columns": "250px 1fr",
+        "gap": 24,
+        "children": [
+          {
+            "type": "stack",
+            "direction": "vertical",
+            "spacing": 24,
+            "className": "bg-white rounded-lg shadow p-6",
+            "children": [
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "h3",
+                    "content": "Filters",
+                    "className": "text-lg font-bold mb-4"
+                  },
+                  {
+                    "type": "stack",
+                    "direction": "vertical",
+                    "spacing": 16,
+                    "children": [
+                      {
+                        "type": "container",
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "label",
+                            "content": "Category",
+                            "className": "block mb-2 font-medium"
+                          },
+                          {
+                            "type": "stack",
+                            "direction": "vertical",
+                            "spacing": 8,
+                            "children": [
+                              {
+                                "type": "checkbox",
+                                "binding": "$.filters.categories.electronics",
+                                "label": "Electronics"
+                              },
+                              {
+                                "type": "checkbox",
+                                "binding": "$.filters.categories.clothing",
+                                "label": "Clothing"
+                              },
+                              {
+                                "type": "checkbox",
+                                "binding": "$.filters.categories.home",
+                                "label": "Home & Garden"
+                              },
+                              {
+                                "type": "checkbox",
+                                "binding": "$.filters.categories.sports",
+                                "label": "Sports"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "container",
+                        "className": "border-t pt-4",
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "label",
+                            "content": "Price Range",
+                            "className": "block mb-3 font-medium"
+                          },
+                          {
+                            "type": "stack",
+                            "direction": "vertical",
+                            "spacing": 12,
+                            "children": [
+                              {
+                                "type": "flex",
+                                "gap": 8,
+                                "children": [
+                                  {
+                                    "type": "input",
+                                    "variant": "number",
+                                    "binding": "$.filters.priceMin",
+                                    "placeholder": "Min",
+                                    "className": "flex-1 px-2 py-1 border rounded text-sm"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "variant": "body",
+                                    "content": "-",
+                                    "className": "text-gray-500"
+                                  },
+                                  {
+                                    "type": "input",
+                                    "variant": "number",
+                                    "binding": "$.filters.priceMax",
+                                    "placeholder": "Max",
+                                    "className": "flex-1 px-2 py-1 border rounded text-sm"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "button",
+                                "label": "Apply",
+                                "variant": "secondary",
+                                "action": "actions.applyPriceFilter",
+                                "className": "w-full px-3 py-1 text-sm"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "container",
+                        "className": "border-t pt-4",
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "label",
+                            "content": "Rating",
+                            "className": "block mb-2 font-medium"
+                          },
+                          {
+                            "type": "stack",
+                            "direction": "vertical",
+                            "spacing": 8,
+                            "children": [
+                              {
+                                "type": "checkbox",
+                                "binding": "$.filters.rating.fourPlus",
+                                "label": "4+ stars"
+                              },
+                              {
+                                "type": "checkbox",
+                                "binding": "$.filters.rating.threePlus",
+                                "label": "3+ stars"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "container",
+                        "className": "border-t pt-4",
+                        "children": [
+                          {
+                            "type": "checkbox",
+                            "binding": "$.filters.inStock",
+                            "label": "In Stock Only"
+                          },
+                          {
+                            "type": "checkbox",
+                            "binding": "$.filters.onSale",
+                            "label": "On Sale"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "button",
+                        "label": "Clear All Filters",
+                        "variant": "ghost",
+                        "action": "actions.clearFilters",
+                        "className": "w-full text-sm text-blue-600 mt-4"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "stack",
+            "direction": "vertical",
+            "spacing": 16,
+            "children": [
+              {
+                "type": "flex",
+                "gap": 12,
+                "align": "center",
+                "children": [
+                  {
+                    "type": "input",
+                    "variant": "search",
+                    "binding": "$.searchQuery",
+                    "placeholder": "Search products...",
+                    "onChange": "actions.searchProducts",
+                    "className": "flex-1 px-4 py-2 border rounded"
+                  },
+                  {
+                    "type": "select",
+                    "binding": "$.sortBy",
+                    "options": [
+                      {"value": "relevant", "label": "Most Relevant"},
+                      {"value": "price-asc", "label": "Price: Low to High"},
+                      {"value": "price-desc", "label": "Price: High to Low"},
+                      {"value": "rating", "label": "Highest Rated"},
+                      {"value": "newest", "label": "Newest"}
+                    ],
+                    "onChange": "actions.sortProducts",
+                    "className": "px-3 py-2 border rounded"
+                  }
+                ]
+              },
+              {
+                "type": "grid",
+                "columns": "repeat(auto-fill, minmax(250px, 1fr))",
+                "gap": 16,
+                "children": [
+                  {
+                    "type": "container",
+                    "binding": "$.products[*]",
+                    "className": "bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition",
+                    "children": [
+                      {
+                        "type": "image",
+                        "binding": "$.image",
+                        "alt": "{{name}}",
+                        "width": 250,
+                        "height": 250,
+                        "fit": "cover",
+                        "className": "w-full"
+                      },
+                      {
+                        "type": "stack",
+                        "direction": "vertical",
+                        "spacing": 8,
+                        "className": "p-4",
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "body",
+                            "binding": "$.name",
+                            "className": "font-medium text-lg"
+                          },
+                          {
+                            "type": "text",
+                            "variant": "caption",
+                            "binding": "$.description",
+                            "className": "text-gray-600 text-sm line-clamp-2"
+                          },
+                          {
+                            "type": "flex",
+                            "justify": "space-between",
+                            "align": "center",
+                            "className": "mt-2",
+                            "children": [
+                              {
+                                "type": "container",
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "variant": "body",
+                                    "content": "${{price}}",
+                                    "binding": "$.price",
+                                    "className": "text-2xl font-bold text-blue-600"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "variant": "caption",
+                                    "content": "${{originalPrice}}",
+                                    "binding": "$.originalPrice",
+                                    "condition": "$.onSale",
+                                    "className": "text-sm text-gray-400 line-through ml-2"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "container",
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "variant": "caption",
+                                    "content": "⭐ {{rating}}",
+                                    "binding": "$.rating",
+                                    "className": "text-sm text-gray-600"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "flex",
+                            "gap": 8,
+                            "className": "mt-3",
+                            "children": [
+                              {
+                                "type": "button",
+                                "label": "Add to Cart",
+                                "variant": "primary",
+                                "action": "actions.addToCart",
+                                "className": "flex-1 py-2"
+                              },
+                              {
+                                "type": "button",
+                                "label": "♥",
+                                "variant": "secondary",
+                                "action": "actions.addToWishlist",
+                                "className": "px-3 py-2"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "text",
+                            "variant": "caption",
+                            "content": "In Stock",
+                            "condition": "$.inStock",
+                            "className": "text-green-600 text-sm mt-1"
+                          },
+                          {
+                            "type": "text",
+                            "variant": "caption",
+                            "content": "Out of Stock",
+                            "condition": "{{!inStock}}",
+                            "className": "text-red-600 text-sm mt-1"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "flex",
+                "justify": "center",
+                "className": "mt-8",
+                "children": [
+                  {
+                    "type": "flex",
+                    "gap": 8,
+                    "children": [
+                      {
+                        "type": "button",
+                        "label": "Previous",
+                        "variant": "secondary",
+                        "action": "actions.previousPage",
+                        "disabled": "{{currentPage === 1}}",
+                        "className": "px-4 py-2"
+                      },
+                      {
+                        "type": "text",
+                        "variant": "body",
+                        "content": "Page {{currentPage}} of {{totalPages}}",
+                        "binding": "$.currentPage",
+                        "className": "px-4 py-2"
+                      },
+                      {
+                        "type": "button",
+                        "label": "Next",
+                        "variant": "secondary",
+                        "action": "actions.nextPage",
+                        "disabled": "{{currentPage === totalPages}}",
+                        "className": "px-4 py-2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "name": {"type": "string"},
+              "description": {"type": "string"},
+              "price": {"type": "number"},
+              "originalPrice": {"type": "number"},
+              "rating": {"type": "number"},
+              "image": {"type": "string"},
+              "inStock": {"type": "boolean"},
+              "onSale": {"type": "boolean"}
+            }
+          }
+        },
+        "filters": {
+          "type": "object",
+          "properties": {
+            "categories": {
+              "type": "object",
+              "properties": {
+                "electronics": {"type": "boolean"},
+                "clothing": {"type": "boolean"},
+                "home": {"type": "boolean"},
+                "sports": {"type": "boolean"}
+              }
+            },
+            "priceMin": {"type": "number"},
+            "priceMax": {"type": "number"},
+            "rating": {
+              "type": "object",
+              "properties": {
+                "fourPlus": {"type": "boolean"},
+                "threePlus": {"type": "boolean"}
+              }
+            },
+            "inStock": {"type": "boolean"},
+            "onSale": {"type": "boolean"}
+          }
+        },
+        "searchQuery": {"type": "string"},
+        "sortBy": {"type": "string"},
+        "currentPage": {"type": "number"},
+        "totalPages": {"type": "number"},
+        "filteredCount": {"type": "number"},
+        "cartCount": {"type": "number"}
+      }
+    },
+    "initial": {
+      "products": [],
+      "filters": {
+        "categories": {
+          "electronics": false,
+          "clothing": false,
+          "home": false,
+          "sports": false
+        },
+        "priceMin": null,
+        "priceMax": null,
+        "rating": {
+          "fourPlus": false,
+          "threePlus": false
+        },
+        "inStock": false,
+        "onSale": false
+      },
+      "searchQuery": "",
+      "sortBy": "relevant",
+      "currentPage": 1,
+      "totalPages": 1,
+      "filteredCount": 0,
+      "cartCount": 0
+    }
+  },
+
+  "actions": {
+    "fetchProducts": {
+      "type": "http",
+      "method": "GET",
+      "url": "/api/products",
+      "onSuccess": {
+        "type": "composite",
+        "actions": [
+          {
+            "type": "data",
+            "operation": "set",
+            "binding": "$.products",
+            "value": "$.response.products"
+          },
+          {
+            "type": "data",
+            "operation": "set",
+            "binding": "$.filteredCount",
+            "value": "$.response.total"
+          }
+        ]
+      }
+    },
+    "searchProducts": {
+      "type": "http",
+      "method": "GET",
+      "url": "/api/products?search={{searchQuery}}",
+      "debounce": 300,
+      "onSuccess": {
+        "binding": "$.products"
+      }
+    },
+    "sortProducts": {
+      "type": "http",
+      "method": "GET",
+      "url": "/api/products?sort={{sortBy}}",
+      "onSuccess": {
+        "binding": "$.products"
+      }
+    },
+    "applyPriceFilter": {
+      "type": "http",
+      "method": "GET",
+      "url": "/api/products?min={{filters.priceMin}}&max={{filters.priceMax}}",
+      "onSuccess": {
+        "binding": "$.products"
+      }
+    },
+    "clearFilters": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "data",
+          "operation": "set",
+          "binding": "$.filters",
+          "value": {
+            "categories": {},
+            "priceMin": null,
+            "priceMax": null,
+            "rating": {},
+            "inStock": false,
+            "onSale": false
+          }
+        },
+        "actions.fetchProducts"
+      ]
+    },
+    "addToCart": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "http",
+          "method": "POST",
+          "url": "/api/cart/add",
+          "body": {"productId": "$.id", "quantity": 1}
+        },
+        {
+          "type": "data",
+          "operation": "set",
+          "binding": "$.cartCount",
+          "value": "{{cartCount + 1}}"
+        }
+      ]
+    },
+    "addToWishlist": {
+      "type": "http",
+      "method": "POST",
+      "url": "/api/wishlist/add",
+      "body": {"productId": "$.id"}
+    },
+    "viewCart": {
+      "type": "navigate",
+      "url": "/cart"
+    },
+    "previousPage": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "data",
+          "operation": "set",
+          "binding": "$.currentPage",
+          "value": "{{currentPage - 1}}"
+        },
+        "actions.fetchProducts"
+      ]
+    },
+    "nextPage": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "data",
+          "operation": "set",
+          "binding": "$.currentPage",
+          "value": "{{currentPage + 1}}"
+        },
+        "actions.fetchProducts"
+      ]
+    }
+  },
+
+  "platformHints": {
+    "web": {
+      "responsive": true,
+      "breakpoints": {
+        "mobile": 640,
+        "tablet": 768,
+        "desktop": 1024
+      }
+    }
+  }
+}

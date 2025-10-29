@@ -1,0 +1,614 @@
+{
+  "$schema": "https://helixui.org/v0.1/schema.json",
+  "version": "0.1",
+  "id": "blog-post-editor",
+
+  "meta": {
+    "name": "Blog Post Editor",
+    "description": "Rich text editor for creating and editing blog posts",
+    "author": "HelixUI",
+    "created": "2025-10-27T00:00:00Z"
+  },
+
+  "root": {
+    "type": "container",
+    "className": "max-w-4xl mx-auto",
+    "layout": {
+      "strategy": "flex",
+      "direction": "column",
+      "gap": 24,
+      "padding": 32
+    },
+    "children": [
+      {
+        "type": "flex",
+        "justify": "space-between",
+        "align": "center",
+        "className": "mb-6",
+        "children": [
+          {
+            "type": "text",
+            "variant": "h1",
+            "content": "{{isEdit ? 'Edit Post' : 'New Post'}}",
+            "binding": "$.isEdit",
+            "className": "text-3xl font-bold"
+          },
+          {
+            "type": "flex",
+            "gap": 12,
+            "children": [
+              {
+                "type": "button",
+                "label": "Save Draft",
+                "variant": "secondary",
+                "action": "actions.saveDraft",
+                "className": "px-4 py-2"
+              },
+              {
+                "type": "button",
+                "label": "Preview",
+                "variant": "secondary",
+                "action": "actions.preview",
+                "className": "px-4 py-2"
+              },
+              {
+                "type": "button",
+                "label": "Publish",
+                "variant": "primary",
+                "action": "actions.publish",
+                "className": "px-4 py-2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "container",
+        "className": "bg-white rounded-lg shadow p-6",
+        "children": [
+          {
+            "type": "stack",
+            "direction": "vertical",
+            "spacing": 24,
+            "children": [
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "input",
+                    "variant": "text",
+                    "binding": "$.post.title",
+                    "placeholder": "Post title...",
+                    "className": "w-full text-4xl font-bold border-0 outline-none",
+                    "validation": {
+                      "required": true,
+                      "minLength": 3,
+                      "message": "Title must be at least 3 characters"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "container",
+                "children": [
+                  {
+                    "type": "input",
+                    "variant": "text",
+                    "binding": "$.post.slug",
+                    "placeholder": "post-url-slug",
+                    "className": "w-full px-3 py-2 border rounded text-sm text-gray-600",
+                    "validation": {
+                      "pattern": "^[a-z0-9-]+$",
+                      "message": "Slug must be lowercase letters, numbers, and hyphens only"
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "variant": "caption",
+                    "content": "URL: https://example.com/blog/{{post.slug}}",
+                    "binding": "$.post.slug",
+                    "className": "text-sm text-gray-500 mt-1"
+                  }
+                ]
+              },
+              {
+                "type": "container",
+                "className": "border rounded p-2",
+                "children": [
+                  {
+                    "type": "flex",
+                    "gap": 8,
+                    "className": "mb-2 pb-2 border-b",
+                    "children": [
+                      {
+                        "type": "button",
+                        "label": "B",
+                        "variant": "ghost",
+                        "action": "actions.formatBold",
+                        "className": "px-3 py-1 font-bold"
+                      },
+                      {
+                        "type": "button",
+                        "label": "I",
+                        "variant": "ghost",
+                        "action": "actions.formatItalic",
+                        "className": "px-3 py-1 italic"
+                      },
+                      {
+                        "type": "button",
+                        "label": "H1",
+                        "variant": "ghost",
+                        "action": "actions.formatH1",
+                        "className": "px-3 py-1"
+                      },
+                      {
+                        "type": "button",
+                        "label": "H2",
+                        "variant": "ghost",
+                        "action": "actions.formatH2",
+                        "className": "px-3 py-1"
+                      },
+                      {
+                        "type": "container",
+                        "className": "border-l mx-2"
+                      },
+                      {
+                        "type": "button",
+                        "label": "List",
+                        "variant": "ghost",
+                        "action": "actions.formatList",
+                        "className": "px-3 py-1"
+                      },
+                      {
+                        "type": "button",
+                        "label": "Quote",
+                        "variant": "ghost",
+                        "action": "actions.formatQuote",
+                        "className": "px-3 py-1"
+                      },
+                      {
+                        "type": "button",
+                        "label": "Code",
+                        "variant": "ghost",
+                        "action": "actions.formatCode",
+                        "className": "px-3 py-1"
+                      },
+                      {
+                        "type": "container",
+                        "className": "border-l mx-2"
+                      },
+                      {
+                        "type": "button",
+                        "label": "Link",
+                        "variant": "ghost",
+                        "action": "actions.insertLink",
+                        "className": "px-3 py-1"
+                      },
+                      {
+                        "type": "button",
+                        "label": "Image",
+                        "variant": "ghost",
+                        "action": "actions.insertImage",
+                        "className": "px-3 py-1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "input",
+                    "variant": "text",
+                    "binding": "$.post.content",
+                    "placeholder": "Write your post content here...",
+                    "className": "w-full min-h-96 p-4 border-0 outline-none resize-none"
+                  }
+                ]
+              },
+              {
+                "type": "container",
+                "className": "border-t pt-6",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "h3",
+                    "content": "Featured Image",
+                    "className": "text-lg font-bold mb-3"
+                  },
+                  {
+                    "type": "flex",
+                    "gap": 16,
+                    "align": "center",
+                    "children": [
+                      {
+                        "type": "image",
+                        "binding": "$.post.featuredImage",
+                        "src": "{{post.featuredImage || 'https://via.placeholder.com/200x150'}}",
+                        "alt": "Featured image",
+                        "width": 200,
+                        "height": 150,
+                        "className": "rounded border"
+                      },
+                      {
+                        "type": "stack",
+                        "direction": "vertical",
+                        "spacing": 8,
+                        "children": [
+                          {
+                            "type": "button",
+                            "label": "Upload Image",
+                            "variant": "secondary",
+                            "action": "actions.uploadFeaturedImage",
+                            "className": "px-4 py-2"
+                          },
+                          {
+                            "type": "button",
+                            "label": "Remove",
+                            "variant": "ghost",
+                            "action": "actions.removeFeaturedImage",
+                            "condition": "$.post.featuredImage",
+                            "className": "px-4 py-2 text-red-600"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "grid",
+                "columns": "1fr 1fr",
+                "gap": 16,
+                "className": "border-t pt-6",
+                "children": [
+                  {
+                    "type": "container",
+                    "children": [
+                      {
+                        "type": "text",
+                        "variant": "label",
+                        "content": "Category",
+                        "className": "block mb-2 font-medium"
+                      },
+                      {
+                        "type": "select",
+                        "binding": "$.post.category",
+                        "placeholder": "Select category",
+                        "options": [
+                          {"value": "tech", "label": "Technology"},
+                          {"value": "design", "label": "Design"},
+                          {"value": "business", "label": "Business"},
+                          {"value": "lifestyle", "label": "Lifestyle"}
+                        ],
+                        "className": "w-full px-3 py-2 border rounded"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "container",
+                    "children": [
+                      {
+                        "type": "text",
+                        "variant": "label",
+                        "content": "Tags",
+                        "className": "block mb-2 font-medium"
+                      },
+                      {
+                        "type": "input",
+                        "variant": "text",
+                        "binding": "$.post.tags",
+                        "placeholder": "tag1, tag2, tag3",
+                        "className": "w-full px-3 py-2 border rounded"
+                      },
+                      {
+                        "type": "text",
+                        "variant": "caption",
+                        "content": "Separate tags with commas",
+                        "className": "text-sm text-gray-500 mt-1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "container",
+                "className": "border-t pt-6",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "h3",
+                    "content": "SEO & Metadata",
+                    "className": "text-lg font-bold mb-4"
+                  },
+                  {
+                    "type": "stack",
+                    "direction": "vertical",
+                    "spacing": 16,
+                    "children": [
+                      {
+                        "type": "container",
+                        "children": [
+                          {
+                            "type": "text",
+                            "variant": "label",
+                            "content": "Meta Description",
+                            "className": "block mb-2 font-medium"
+                          },
+                          {
+                            "type": "input",
+                            "variant": "text",
+                            "binding": "$.post.metaDescription",
+                            "placeholder": "Brief description for search engines...",
+                            "className": "w-full px-3 py-2 border rounded h-20",
+                            "validation": {
+                              "maxLength": 160,
+                              "message": "Meta description should be under 160 characters"
+                            }
+                          },
+                          {
+                            "type": "text",
+                            "variant": "caption",
+                            "content": "{{(post.metaDescription || '').length}}/160 characters",
+                            "binding": "$.post.metaDescription",
+                            "className": "text-sm text-gray-500 mt-1"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "flex",
+                        "gap": 16,
+                        "children": [
+                          {
+                            "type": "checkbox",
+                            "binding": "$.post.allowComments",
+                            "label": "Allow comments"
+                          },
+                          {
+                            "type": "checkbox",
+                            "binding": "$.post.featured",
+                            "label": "Feature this post"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "flex",
+                "justify": "space-between",
+                "align": "center",
+                "className": "border-t pt-6",
+                "children": [
+                  {
+                    "type": "text",
+                    "variant": "caption",
+                    "content": "Last saved: {{lastSaved || 'Never'}}",
+                    "binding": "$.lastSaved",
+                    "className": "text-gray-500"
+                  },
+                  {
+                    "type": "flex",
+                    "gap": 12,
+                    "children": [
+                      {
+                        "type": "button",
+                        "label": "Discard",
+                        "variant": "ghost",
+                        "action": "actions.discard",
+                        "className": "px-4 py-2"
+                      },
+                      {
+                        "type": "button",
+                        "label": "Save Draft",
+                        "variant": "secondary",
+                        "action": "actions.saveDraft",
+                        "className": "px-4 py-2"
+                      },
+                      {
+                        "type": "button",
+                        "label": "Publish",
+                        "variant": "primary",
+                        "action": "actions.publish",
+                        "className": "px-4 py-2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "isEdit": {"type": "boolean"},
+        "lastSaved": {"type": "string"},
+        "post": {
+          "type": "object",
+          "properties": {
+            "id": {"type": "string"},
+            "title": {"type": "string"},
+            "slug": {"type": "string"},
+            "content": {"type": "string"},
+            "featuredImage": {"type": "string"},
+            "category": {"type": "string"},
+            "tags": {"type": "string"},
+            "metaDescription": {"type": "string"},
+            "allowComments": {"type": "boolean"},
+            "featured": {"type": "boolean"},
+            "status": {"type": "string", "enum": ["draft", "published"]}
+          }
+        }
+      }
+    },
+    "initial": {
+      "isEdit": false,
+      "lastSaved": null,
+      "post": {
+        "title": "",
+        "slug": "",
+        "content": "",
+        "featuredImage": "",
+        "category": "",
+        "tags": "",
+        "metaDescription": "",
+        "allowComments": true,
+        "featured": false,
+        "status": "draft"
+      }
+    }
+  },
+
+  "actions": {
+    "loadPost": {
+      "type": "http",
+      "method": "GET",
+      "url": "/api/posts/{{postId}}",
+      "onSuccess": {
+        "type": "composite",
+        "actions": [
+          {
+            "type": "data",
+            "operation": "set",
+            "binding": "$.post",
+            "value": "$.response"
+          },
+          {
+            "type": "data",
+            "operation": "set",
+            "binding": "$.isEdit",
+            "value": true
+          }
+        ]
+      }
+    },
+    "saveDraft": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "data",
+          "operation": "set",
+          "binding": "$.post.status",
+          "value": "draft"
+        },
+        {
+          "type": "http",
+          "method": "{{isEdit ? 'PUT' : 'POST'}}",
+          "url": "{{isEdit ? '/api/posts/' + post.id : '/api/posts'}}",
+          "body": "$.post",
+          "onSuccess": {
+            "type": "data",
+            "operation": "set",
+            "binding": "$.lastSaved",
+            "value": "Just now"
+          }
+        }
+      ]
+    },
+    "publish": {
+      "type": "composite",
+      "actions": [
+        {
+          "type": "data",
+          "operation": "set",
+          "binding": "$.post.status",
+          "value": "published"
+        },
+        {
+          "type": "http",
+          "method": "{{isEdit ? 'PUT' : 'POST'}}",
+          "url": "{{isEdit ? '/api/posts/' + post.id : '/api/posts'}}",
+          "body": "$.post",
+          "onSuccess": {
+            "type": "navigate",
+            "url": "/blog/{{post.slug}}"
+          }
+        }
+      ]
+    },
+    "preview": {
+      "type": "modal",
+      "operation": "open",
+      "modalId": "preview-modal",
+      "data": {
+        "post": "$.post"
+      }
+    },
+    "discard": {
+      "type": "navigate",
+      "url": "/blog"
+    },
+    "uploadFeaturedImage": {
+      "type": "modal",
+      "operation": "open",
+      "modalId": "upload-image"
+    },
+    "removeFeaturedImage": {
+      "type": "data",
+      "operation": "set",
+      "binding": "$.post.featuredImage",
+      "value": ""
+    },
+    "formatBold": {
+      "type": "data",
+      "operation": "merge",
+      "binding": "$.editorCommand",
+      "value": {"command": "bold"}
+    },
+    "formatItalic": {
+      "type": "data",
+      "operation": "merge",
+      "binding": "$.editorCommand",
+      "value": {"command": "italic"}
+    },
+    "formatH1": {
+      "type": "data",
+      "operation": "merge",
+      "binding": "$.editorCommand",
+      "value": {"command": "heading", "level": 1}
+    },
+    "formatH2": {
+      "type": "data",
+      "operation": "merge",
+      "binding": "$.editorCommand",
+      "value": {"command": "heading", "level": 2}
+    },
+    "formatList": {
+      "type": "data",
+      "operation": "merge",
+      "binding": "$.editorCommand",
+      "value": {"command": "list"}
+    },
+    "formatQuote": {
+      "type": "data",
+      "operation": "merge",
+      "binding": "$.editorCommand",
+      "value": {"command": "quote"}
+    },
+    "formatCode": {
+      "type": "data",
+      "operation": "merge",
+      "binding": "$.editorCommand",
+      "value": {"command": "code"}
+    },
+    "insertLink": {
+      "type": "modal",
+      "operation": "open",
+      "modalId": "insert-link"
+    },
+    "insertImage": {
+      "type": "modal",
+      "operation": "open",
+      "modalId": "insert-image"
+    }
+  },
+
+  "platformHints": {
+    "web": {
+      "responsive": true
+    }
+  }
+}
