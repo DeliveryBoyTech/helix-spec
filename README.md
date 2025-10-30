@@ -1,13 +1,13 @@
-# HelixUI Specification
+# HelixJSON Specification
 
 A declarative, platform-agnostic specification for building user interfaces.
 
-## What is HelixUI?
+## What is HelixJSON?
 
-HelixUI is a JSON-based specification for describing user interfaces that can be compiled to any target platform or framework.
+HelixJSON is a JSON-based specification for describing user interfaces that can be compiled to any target platform or framework.
 
 Think of it as:
-- **OpenAPI** for APIs → **HelixUI** for UIs
+- **OpenAPI** for APIs → **HelixJSON** for UIs
 - Write once in JSON, compile to any platform (web, mobile, desktop, embedded)
 - Platform-agnostic, framework-agnostic, language-agnostic
 - Designed for both humans and AI
@@ -72,7 +72,7 @@ See the [examples/](examples/) directory for reference implementations:
 
 This can be compiled to any target platform with reactive data binding.
 
-## Why HelixUI?
+## Why HelixJSON?
 
 1. **Platform Independence** - Not tied to web, mobile, or desktop - compile to any platform
 2. **Framework Independence** - Not tied to React, Vue, SwiftUI, or any specific framework
@@ -84,15 +84,15 @@ This can be compiled to any target platform with reactive data binding.
 ## Use Cases
 
 - **Multi-Platform Applications** - Single UI definition → web, iOS, Android, desktop, embedded
-- **AI Code Generation** - LLMs generate HelixUI JSON for any platform
-- **No-Code/Low-Code Tools** - Visual builders output universal HelixUI
+- **AI Code Generation** - LLMs generate HelixJSON JSON for any platform
+- **No-Code/Low-Code Tools** - Visual builders output universal HelixJSON
 - **Design Systems** - Standard UI language across all platforms and teams
 - **Legacy Migration** - Convert old UIs to modern platforms without manual rewriting
 - **Cross-Platform Development** - Maintain one spec, compile to native experiences
 
 ## Optimization Guidelines
 
-HelixUI files can be optimized for transmission and storage using standard techniques:
+HelixJSON files can be optimized for transmission and storage using standard techniques:
 
 ### Development
 - Use formatted JSON with whitespace for readability

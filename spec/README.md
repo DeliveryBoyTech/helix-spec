@@ -1,12 +1,12 @@
-# HelixUI Specification
+# HelixJSON Specification
 
-## What is HelixUI?
+## What is HelixJSON?
 
-HelixUI is a universal, platform-agnostic intermediate representation for user interfaces. Think of it as "assembly language for UIs" - a standardized JSON format that any UI can be expressed in and compiled to any platform.
+HelixJSON is a universal, platform-agnostic intermediate representation for user interfaces. Think of it as "assembly language for UIs" - a standardized JSON format that any UI can be expressed in and compiled to any platform.
 
 ## Files in this Directory
 
-- **SPECIFICATION.md** - Complete HelixUI v0.1 specification
+- **SPECIFICATION.md** - Complete HelixJSON v0.1 specification
 - **schema.json** (coming next) - JSON Schema for validation
 
 ## Quick Start
@@ -119,7 +119,7 @@ Flexbox-based layout:
 ## Next Steps
 
 1. Create JSON Schema for validation
-2. Build reference compiler (HelixUI → HTMX)
+2. Build reference compiler (HelixJSON → HTMX)
 3. Test with real-world examples
 4. Iterate based on findings
 

@@ -1,8 +1,8 @@
-# HelixUI Validation
+# HelixJSON Validation
 
 ## JSON Schema
 
-The HelixUI JSON Schema is available at `/spec/schema.json`.
+The HelixJSON JSON Schema is available at `/spec/schema.json`.
 
 ## Validating Examples
 

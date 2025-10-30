@@ -1,8 +1,8 @@
-# HelixUI Specification v0.1
+# HelixJSON Specification v0.1
 
 ## Overview
 
-HelixUI is a JSON-based, platform-agnostic intermediate representation for user interfaces. It enables:
+HelixJSON is a JSON-based, platform-agnostic intermediate representation for user interfaces. It enables:
 
 - **Universal UI description** - Define UI once, compile to any platform
 - **Declarative structure** - Component hierarchy, layout, styling, and behavior
@@ -51,7 +51,7 @@ HelixUI is a JSON-based, platform-agnostic intermediate representation for user 
 ### Top-Level Fields
 
 - **`$schema`** (string, optional) - JSON Schema URL for validation
-- **`version`** (string, required) - HelixUI spec version (e.g., "0.1")
+- **`version`** (string, required) - HelixJSON spec version (e.g., "0.1")
 - **`id`** (string, required) - Unique identifier for this UI
 - **`meta`** (object, optional) - Metadata about the UI
 - **`root`** (object, required) - Root component of the UI tree
@@ -63,7 +63,7 @@ HelixUI is a JSON-based, platform-agnostic intermediate representation for user 
 
 ## Core Primitive Types
 
-HelixUI v0.1 includes 15 core primitive types organized into three categories:
+HelixJSON v0.1 includes 15 core primitive types organized into three categories:
 
 ### 1. Layout Primitives (Structure)
 
@@ -742,7 +742,7 @@ Shorthand:
 
 ## Data Binding System
 
-HelixUI uses JSON Path syntax for data bindings.
+HelixJSON uses JSON Path syntax for data bindings.
 
 ### Binding Syntax
 
@@ -948,7 +948,7 @@ Chain multiple actions.
 
 ## Styling System
 
-HelixUI supports three styling approaches:
+HelixJSON supports three styling approaches:
 
 ### 1. Inline Styles
 
@@ -1063,7 +1063,7 @@ Provide platform-specific guidance without breaking abstraction:
   "meta": {
     "name": "User Management",
     "description": "Admin interface for managing users",
-    "author": "HelixUI",
+    "author": "HelixJSON",
     "created": "2025-10-27T00:00:00Z"
   },
 
